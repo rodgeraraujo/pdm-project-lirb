@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Lirb</string>
+    <string name="home_text">Um lugar onde você pode publicar suas histórias.</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="register">Registre-se</string>
+    <string name="n_o_tem_uma_conta">Não tem uma conta?</string>
+    <string name="cadastre_se">Cadastre-se.</string>
+    <string name="lirb">Lirb</string>
+    <string name="j_tem_uma_conta">Já tem uma conta?</string>
+    <string name="usu_rio">Usuário</string>
+    <string name="nome">Nome</string>
+</resources>
