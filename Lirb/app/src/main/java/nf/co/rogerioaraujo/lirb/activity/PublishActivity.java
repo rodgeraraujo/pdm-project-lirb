@@ -13,6 +13,9 @@ public class PublishActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
+
+        getSupportActionBar().setTitle("Publique uma nova história");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void goHomeActivity(View view) {

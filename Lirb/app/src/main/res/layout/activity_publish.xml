@@ -9,15 +9,15 @@
     <EditText
         android:id="@+id/editText2"
         android:layout_width="324dp"
-        android:layout_height="39dp"
+        android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:hint="Título"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
         android:fontFamily="@font/enriqueta"
+        android:hint="Título"
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
@@ -31,51 +31,64 @@
         android:id="@+id/editText7"
         android:layout_width="322dp"
         android:layout_height="93dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
         android:fontFamily="@font/enriqueta"
         android:inputType="textMultiLine"
-        android:text="Sinopse"
+        android:hint="Sinopse"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText2"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="32dp" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editText8"
         android:layout_width="322dp"
         android:layout_height="174dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
         android:fontFamily="@font/enriqueta"
         android:inputType="textMultiLine"
-        android:text="Texto"
+        android:hint="Texto"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText7"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="31dp" />
+        tools:ignore="MissingConstraints" />
 
     <Switch
         android:id="@+id/switch1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/enriqueta"
         android:text="Publicar?  "
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button"
-        tools:layout_editor_absoluteY="468dp"
+        app:layout_constraintHorizontal_bias="0.772"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="217dp"
-        android:layout_height="24dp"
+        android:layout_width="105dp"
+        android:layout_height="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="68dp"
         android:layout_marginBottom="8dp"
         android:background="@color/purple"
         android:backgroundTint="@color/purple"
@@ -89,12 +102,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.982" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="wrap_content"
-        android:layout_height="37dp"
+        android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
@@ -109,29 +122,35 @@
 
     <TextView
         android:id="@+id/textView26"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
+        android:layout_width="18dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="ou"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText8"
-        tools:layout_editor_absoluteX="184dp"
+        app:layout_constraintVertical_bias="0.106"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="41dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Importar Capa"
-        app:layout_constraintBottom_toTopOf="@+id/editText7"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.094"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.111" />
 
 
 </android.support.constraint.ConstraintLayout>
