@@ -22,6 +22,5 @@ public class RegisterActivity extends AppCompatActivity {
     public void goLoginActivity(View view) {
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
-        finish();
     }
 }

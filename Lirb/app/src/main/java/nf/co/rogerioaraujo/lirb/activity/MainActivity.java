@@ -29,12 +29,10 @@ public class MainActivity extends AppCompatActivity {
     public void goLoginActivity(View view) {
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
-        finish();
     }
 
     public void goRegisterActivity(View view) {
         Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(registerIntent);
-        finish();
     }
 }

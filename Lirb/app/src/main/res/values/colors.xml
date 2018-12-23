@@ -9,4 +9,6 @@
     <color name="darkGray">#393939</color>
     <color name="lightGray">#A1A1A1</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="activeText">#afafd1</color>
 </resources>

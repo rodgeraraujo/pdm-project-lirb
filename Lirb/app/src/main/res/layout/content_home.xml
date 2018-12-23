@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.HomeActivity"
+    tools:showIn="@layout/app_bar_home">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="386dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/enriqueta"
+            android:text="Recentes"
+            android:textAlignment="center"
+            android:textColor="@color/activeText"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/enriqueta"
+            android:text="Mais Avaliados"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/enriqueta"
+            android:text="Populares"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="363dp"
+        android:layout_height="395dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="28dp"
+        android:padding="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="105dp"
+            android:layout_height="172dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/wallpaper2"
+            android:onClick="goBookProfile"
+            android:orientation="vertical"
+            android:padding="2dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="43dp"
+            tools:layout_editor_absoluteY="41dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="133dp"
+                android:background="@drawable/cover_01" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/enriqueta"
+                android:text="Gardens of the..."
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/enriqueta"
+                android:text="Steven Erikson"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="108dp"
+            android:layout_height="172dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/wallpaper2"
+            android:onClick="goBookProfile"
+            android:orientation="vertical"
+            android:padding="2dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="43dp"
+            tools:layout_editor_absoluteY="41dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="133dp"
+                android:background="@drawable/cover_02" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/enriqueta"
+                android:text="Demonstorm"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/enriqueta"
+                android:text="James Barclay"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="112dp"
+            android:layout_height="172dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/wallpaper2"
+            android:onClick="goBookProfile"
+            android:orientation="vertical"
+            android:padding="2dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="43dp"
+            tools:layout_editor_absoluteY="41dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="133dp"
+                android:background="@drawable/cover_03" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/enriqueta"
+                android:text="The Stormcaller"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/enriqueta"
+                android:text="Tom Lloyd"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
