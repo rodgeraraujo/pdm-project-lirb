@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import nf.co.rogerioaraujo.lirb.R;
 
@@ -95,39 +96,44 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_my_books) {
 
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage(
-                    "Está função ainda não está funcinando, quem sabe na proxima relelase!"
-            );
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    Toast.LENGTH_LONG
+            ).show();
 
 
         } else if (id == R.id.nav_buyer_books) {
 
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage(
-                    "Está função ainda não está funcinando, quem sabe na proxima relelase!"
-            );
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    Toast.LENGTH_LONG
+            ).show();
 
         } else if (id == R.id.nav_settings) {
 
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage(
-                    "Está função ainda não está funcinando, quem sabe na proxima relelase!"
-            );
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    Toast.LENGTH_LONG
+            ).show();
 
         } else if (id == R.id.nav_about) {
 
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage(
-                    "Está função ainda não está funcinando, quem sabe na proxima relelase!"
-            );
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    Toast.LENGTH_LONG
+            ).show();
 
         }else if (id == R.id.nav_feedback) {
 
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage(
-                    "Está função ainda não está funcinando, quem sabe na proxima relelase!"
-            );
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    Toast.LENGTH_LONG
+            ).show();
 
         }else if (id == R.id.nav_logout) {
 
