@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Lirb</string>
+    <string name="home_text">Um lugar onde você pode publicar suas histórias.</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="register">Registre-se</string>
+    <string name="n_o_tem_uma_conta">Não tem uma conta?</string>
+    <string name="cadastre_se">Cadastre-se.</string>
+    <string name="lirb">Lirb</string>
+    <string name="j_tem_uma_conta">Já tem uma conta?</string>
+    <string name="usu_rio">Usuário</string>
+    <string name="nome">Nome</string>
+    <string name="title_activity_home">Lirb - ReadWriter</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Rogério Araújo</string>
+    <string name="nav_header_subtitle">rogerio@mail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nibh lectus, rhoncus a rhoncus fringilla, semper eu est. Sed elementum quis mauris sit amet luctus. Vestibulum sed cursus elit, nec congue velit. Curabitur at ante neque. Quisque commodo nisl ut magna porttitor hendrerit. Morbi volutpat egestas eros, id blandit nisi elementum quis. Aliquam magna dolor, imperdiet sit amet viverra ut, finibus eu erat. </string>
+    <string name="lorem_medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nibh lectus, rhoncus a rhoncus fringilla, semper eu est.</string>
+    <string name="lorem_long">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nibh lectus, rhoncus a rhoncus fringilla, semper eu est. Sed elementum quis mauris sit amet luctus. Vestibulum sed cursus elit, nec congue velit. Curabitur at ante neque. Quisque commodo nisl ut magna porttitor hendrerit. Morbi volutpat egestas eros, id blandit nisi elementum quis. Aliquam magna dolor, imperdiet sit amet viverra ut, finibus eu erat.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nibh lectus, rhoncus a rhoncus fringilla, semper eu est. Sed elementum quis mauris sit amet luctus. Vestibulum sed cursus elit, nec congue velit. Curabitur at ante neque. Quisque commodo nisl ut magna porttitor hendrerit. Morbi volutpat egestas eros, id blandit nisi elementum quis. Aliquam magna dolor, imperdiet sit amet viverra ut, finibus eu erat.
+    </string>
+    <string name="line">____________________________________________</string>
+</resources>
