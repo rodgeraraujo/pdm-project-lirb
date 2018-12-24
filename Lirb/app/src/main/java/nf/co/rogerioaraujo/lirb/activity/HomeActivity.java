@@ -101,7 +101,7 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(
                     getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    "Ainda não está funcinando, quem sabe na proxima release!",
                     Toast.LENGTH_LONG
             ).show();
 
@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(
                     getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    "Ainda não está funcinando, quem sabe na proxima release!",
                     Toast.LENGTH_LONG
             ).show();
 
@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(
                     getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    "Ainda não está funcinando, quem sabe na proxima release!",
                     Toast.LENGTH_LONG
             ).show();
 
@@ -126,7 +126,7 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(
                     getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    "Ainda não está funcinando, quem sabe na proxima release!",
                     Toast.LENGTH_LONG
             ).show();
 
@@ -134,7 +134,7 @@ public class HomeActivity extends AppCompatActivity
 
             Toast.makeText(
                     getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima relelase!",
+                    "Ainda não está funcinando, quem sabe na proxima release!",
                     Toast.LENGTH_LONG
             ).show();
 
