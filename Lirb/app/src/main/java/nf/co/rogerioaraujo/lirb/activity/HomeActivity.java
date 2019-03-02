@@ -1,10 +1,12 @@
 package nf.co.rogerioaraujo.lirb.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,10 +18,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import nf.co.rogerioaraujo.lirb.R;
+import nf.co.rogerioaraujo.lirb.webService.Adapter.CustomAdapter;
+import nf.co.rogerioaraujo.lirb.webService.Data.DataJson;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private RecyclerView recyclerView;
+    private GridLayoutManager gridLayoutManager;
+    private CustomAdapter adapter;
+    private List<DataJson> data_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +69,76 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        
+        //load data
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        data_list  = new ArrayList<>();
+//        load_data_from_server(0);
+        load_data_from_server();
+
+        gridLayoutManager = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        adapter = new CustomAdapter(this, data_list);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                //int id = Integer.parseInt(getBookId());
+                if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list.size()-1){
+//                    load_data_from_server(data_list.get(data_list.size()-1).getId);
+                    load_data_from_server();
+                }
+
+            }
+        });
+    }
+
+    private void load_data_from_server() {
+        @SuppressLint("StaticFieldLeak") AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... integers) {
+
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+//                        .url("http://localhost/test/script.php?id="+integers[0])
+                        .url("http://lirb.co.nf/data.json")
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+
+                    JSONArray array = new JSONArray(response.body().string());
+
+                    for (int i=0; i<array.length(); i++){
+
+                        JSONObject object = array.getJSONObject(i);
+
+                        DataJson data = new DataJson(
+                                object.getString("title"),
+                                object.getString("author"),
+                                object.getString("thumbnail"),
+                                object.getString("sinopse")
+                        );
+
+                        data_list.add(data);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    System.out.println("End of content");
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        task.execute();
     }
 
     @Override
