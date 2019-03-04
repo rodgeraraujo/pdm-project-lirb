@@ -1,27 +1,37 @@
 package nf.co.rogerioaraujo.lirb.webService.Data;
 
 public class DataJson {
-    private String title;
-    private String pubDate;
-    private String pages;
     private String bookId;
+    private String title;
+    private String pages;
     private String edition;
+    private String pubDate;
     private String author;
     private String thumbnail;
     private String sinopse;
-    private String user;
+    private String userId;
+    private String language;
+    private String isbn;
+    private String pubCompany;
 
-    public DataJson(String title, String pubDate, String pages, String bookId,
-                    String edition, String author, String thumbnail, String sinopse, String user) {
-        this.title = title;
-        this.pubDate = pubDate;
-        this.pages = pages;
+    public DataJson() {
+    }
+
+    public DataJson(String bookId, String title, String pages, String edition, String pubDate,
+                     String author, String thumbnail, String sinopse, String userId, String language,
+                     String isbn, String pubCompany) {
         this.bookId = bookId;
+        this.title = title;
+        this.pages = pages;
         this.edition = edition;
+        this.pubDate = pubDate;
         this.author = author;
         this.thumbnail = thumbnail;
         this.sinopse = sinopse;
-        this.user = user;
+        this.userId = userId;
+        this.language = language;
+        this.isbn = isbn;
+        this.pubCompany = pubCompany;
     }
 
     public DataJson(String title, String author, String thumbnail, String sinopse) {
@@ -29,6 +39,15 @@ public class DataJson {
         this.author = author;
         this.thumbnail = thumbnail;
         this.sinopse = sinopse;
+    }
+
+
+    public int getBookId() {
+        return Integer.parseInt(bookId);
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getTitle() {
@@ -39,14 +58,6 @@ public class DataJson {
         this.title = title;
     }
 
-    public String getPubDate() {
-        return pubDate;
-    }
-
-    public void setPubDate(String pubDate) {
-        this.pubDate = pubDate;
-    }
-
     public String getPages() {
         return pages;
     }
@@ -55,20 +66,20 @@ public class DataJson {
         this.pages = pages;
     }
 
-    public String getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
-    }
-
     public String getEdition() {
         return edition;
     }
 
     public void setEdition(String edition) {
         this.edition = edition;
+    }
+
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
     }
 
     public String getAuthor() {
@@ -95,11 +106,53 @@ public class DataJson {
         this.sinopse = sinopse;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getPubCompany() {
+        return pubCompany;
+    }
+
+    public void setPubCompany(String pubCompany) {
+        this.pubCompany = pubCompany;
+    }
+
+    @Override
+    public String toString() {
+        return "DataJson{" +
+                "bookId='" + bookId + '\'' +
+                ", title='" + title + '\'' +
+                ", pages='" + pages + '\'' +
+                ", edition='" + edition + '\'' +
+                ", pubDate='" + pubDate + '\'' +
+                ", author='" + author + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", sinopse='" + sinopse + '\'' +
+                ", userId='" + userId + '\'' +
+                ", language='" + language + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", pubCompany='" + pubCompany + '\'' +
+                '}';
     }
 }

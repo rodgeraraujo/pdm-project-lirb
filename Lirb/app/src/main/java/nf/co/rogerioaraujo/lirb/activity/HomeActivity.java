@@ -1,9 +1,11 @@
 package nf.co.rogerioaraujo.lirb.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nf.co.rogerioaraujo.lirb.R;
@@ -31,12 +34,14 @@ import nf.co.rogerioaraujo.lirb.webService.Adapter.CustomAdapter;
 import nf.co.rogerioaraujo.lirb.webService.Data.DataJson;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private int id;
+    // cardview data
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter adapter;
@@ -45,6 +50,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,8 +79,7 @@ public class HomeActivity extends AppCompatActivity
         //load data
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         data_list  = new ArrayList<>();
-//        load_data_from_server(0);
-        load_data_from_server();
+        load_data_from_server(0); // id 0, to get the first iten from db
 
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -82,28 +87,30 @@ public class HomeActivity extends AppCompatActivity
         adapter = new CustomAdapter(this, data_list);
         recyclerView.setAdapter(adapter);
 
+        // scroll to call load data for more 4 itens
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //int id = Integer.parseInt(getBookId());
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                int id = Integer.parseInt(data_list.get(data_list.size()-1).getBookId());
+                //id = data_list.get(data_list.size()-1).getBookId();
+
                 if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list.size()-1){
-//                    load_data_from_server(data_list.get(data_list.size()-1).getId);
-                    load_data_from_server();
+                    load_data_from_server(id+1);
                 }
 
             }
         });
     }
 
-    private void load_data_from_server() {
+    private void load_data_from_server(final int id) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
 
+                System.out.println("test : " + id);
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-//                        .url("http://localhost/test/script.php?id="+integers[0])
-                        .url("http://lirb.co.nf/data.json")
+                        .url("https://lirb.000webhostapp.com/scriptJson.php?id=" + id)
                         .build();
                 try {
                     Response response = client.newCall(request).execute();
@@ -127,6 +134,8 @@ public class HomeActivity extends AppCompatActivity
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
+                    Context c = getApplicationContext();
+                    //Toast.makeText(c, "No more itens to show", Toast.LENGTH_LONG).show();
                     System.out.println("End of content");
                 }
                 return null;
@@ -175,7 +184,7 @@ public class HomeActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
