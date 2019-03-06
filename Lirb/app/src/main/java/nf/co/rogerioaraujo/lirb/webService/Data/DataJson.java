@@ -1,7 +1,7 @@
 package nf.co.rogerioaraujo.lirb.webService.Data;
 
 public class DataJson {
-    private String bookId;
+    private int bookId;
     private String title;
     private String pages;
     private String edition;
@@ -17,7 +17,7 @@ public class DataJson {
     public DataJson() {
     }
 
-    public DataJson(String bookId, String title, String pages, String edition, String pubDate,
+    public DataJson(int bookId, String title, String pages, String edition, String pubDate,
                      String author, String thumbnail, String sinopse, String userId, String language,
                      String isbn, String pubCompany) {
         this.bookId = bookId;
@@ -34,7 +34,8 @@ public class DataJson {
         this.pubCompany = pubCompany;
     }
 
-    public DataJson(String title, String author, String thumbnail, String sinopse) {
+    public DataJson(int bookId, String title, String author, String thumbnail, String sinopse) {
+        this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.thumbnail = thumbnail;
@@ -43,10 +44,10 @@ public class DataJson {
 
 
     public int getBookId() {
-        return Integer.parseInt(bookId);
+        return bookId;
     }
 
-    public void setBookId(String bookId) {
+    public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 

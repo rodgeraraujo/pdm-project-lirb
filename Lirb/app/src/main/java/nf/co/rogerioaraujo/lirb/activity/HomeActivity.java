@@ -7,17 +7,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import nf.co.rogerioaraujo.lirb.R;
@@ -34,18 +33,21 @@ import nf.co.rogerioaraujo.lirb.webService.Adapter.CustomAdapter;
 import nf.co.rogerioaraujo.lirb.webService.Data.DataJson;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     private int id;
+
     // cardview data
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CustomAdapter adapter;
     private List<DataJson> data_list;
+
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,31 +57,32 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent publishIntent = new Intent(getApplicationContext(), PublishActivity.class);
-                startActivity(publishIntent);
+        // get data from LoginActivity
+        //getUser();
+        System.out.println("Test " + userId);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> {
+            Intent publishIntent = new Intent(getApplicationContext(), PublishActivity.class);
+            startActivity(publishIntent);
 
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-            }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         
         //load data
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         data_list  = new ArrayList<>();
-        load_data_from_server(0); // id 0, to get the first iten from db
+        loadDataFromServer(0); // id 0, to get the first iten from db
 
         gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -91,23 +94,29 @@ public class HomeActivity extends AppCompatActivity
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                int id = Integer.parseInt(data_list.get(data_list.size()-1).getBookId());
-                //id = data_list.get(data_list.size()-1).getBookId();
+
+                id = data_list.get(data_list.size()-1).getBookId();
 
                 if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list.size()-1){
-                    load_data_from_server(id+1);
+                    loadDataFromServer(id);
                 }
 
             }
         });
     }
 
-    private void load_data_from_server(final int id) {
+    private void getUser() {
+        Bundle userCode = getIntent().getExtras();
+        userId = userCode.getString("userId");
+    }
+
+    private void loadDataFromServer(final int id) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
 
                 System.out.println("test : " + id);
+
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url("https://lirb.000webhostapp.com/scriptJson.php?id=" + id)
@@ -122,6 +131,7 @@ public class HomeActivity extends AppCompatActivity
                         JSONObject object = array.getJSONObject(i);
 
                         DataJson data = new DataJson(
+                                object.getInt("bookId"),
                                 object.getString("title"),
                                 object.getString("author"),
                                 object.getString("thumbnail"),
@@ -152,7 +162,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -187,6 +197,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String msgToast = "Ainda não está funcinando, quem sabe na proxima release!";
 
         if (id == R.id.nav_profile) {
             // Handle the camera action
@@ -199,54 +210,39 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_my_books) {
 
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima release!",
-                    Toast.LENGTH_LONG
-            ).show();
-
+            showToast(msgToast);
 
         } else if (id == R.id.nav_buyer_books) {
 
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima release!",
-                    Toast.LENGTH_LONG
-            ).show();
+            showToast(msgToast);
 
         } else if (id == R.id.nav_settings) {
 
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima release!",
-                    Toast.LENGTH_LONG
-            ).show();
+            showToast(msgToast);
 
         } else if (id == R.id.nav_about) {
 
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima release!",
-                    Toast.LENGTH_LONG
-            ).show();
+            showToast(msgToast);
 
         }else if (id == R.id.nav_feedback) {
 
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Ainda não está funcinando, quem sabe na proxima release!",
-                    Toast.LENGTH_LONG
-            ).show();
+            showToast(msgToast);
 
         }else if (id == R.id.nav_logout) {
-
-            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(mainIntent);
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showToast(String msgToast) {
+        Toast.makeText(
+                getApplicationContext(),
+                msgToast,
+                Toast.LENGTH_LONG
+        ).show();
     }
 
     public void goBookProfile(View view) {

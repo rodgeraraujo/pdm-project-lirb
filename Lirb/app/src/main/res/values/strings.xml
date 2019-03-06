@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Lirb</string>
     <string name="home_text">Um lugar onde você pode publicar suas histórias.</string>
-    <string name="email">Email</string>
+    <string name="email">Email or usuário</string>
     <string name="senha">Senha</string>
     <string name="username">Username</string>
     <string name="login">Login</string>

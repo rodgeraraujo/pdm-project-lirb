@@ -1,5 +1,9 @@
 package nf.co.rogerioaraujo.lirb.database;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class MySQL {
 
 
@@ -22,6 +26,22 @@ public class MySQL {
     private final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATA_BASE;
 
     public MySQL() {
+    }
+
+    public Connection newConnection() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            return DriverManager
+                    .getConnection(
+                            URL,
+                            USER,
+                            PASSWORD
+                    );
+        } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public String getURL() {

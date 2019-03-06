@@ -90,4 +90,18 @@ public class User {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String
+    toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", dateRegister=" + dateRegister +
+                ", status=" + status +
+                '}';
+    }
 }
