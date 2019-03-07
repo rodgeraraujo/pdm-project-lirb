@@ -46,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-
         userId = findViewById(R.id.txtUser);
         password = findViewById(R.id.txtPass);
         btnLogin = findViewById(R.id.btnLogin);
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             URL = "http://lirb.000webhostapp.com/lirb/user_control.php?user="+USER+"&password="+PASSWORD;
 
             // parse user info to HomeActivity
-            parseUser(USER);
+            //parseUser(USER);
 
             // make request from url
             request = new StringRequest(Request.Method.POST, URL, response -> {
@@ -71,20 +70,23 @@ public class LoginActivity extends AppCompatActivity {
                     if(jsonObject.names().get(0).equals("success")){
                         Toast.makeText(
                                 getApplicationContext(),
-                                "SUCCESS: "+jsonObject.getString("success"),
+                                //"SUCCESS: "+jsonObject.getString("success"),
+                                jsonObject.getString("success"),
                                 Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     }
                     else if(jsonObject.names().get(0).equals("invalid")){
                         Toast.makeText(
                                 getApplicationContext(),
-                                "WARNING: " +jsonObject.getString("invalid"),
+                                //"WARNING: " +jsonObject.getString("invalid"),
+                                jsonObject.getString("invalid"),
                                 Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(
                                 getApplicationContext(),
-                                "ERROR: " +jsonObject.getString("error"),
+                                //"ERROR: " +jsonObject.getString("error"),
+                                jsonObject.getString("error"),
                                 Toast.LENGTH_SHORT).show();
                     }
 

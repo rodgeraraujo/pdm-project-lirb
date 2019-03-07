@@ -8,7 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nf.co.rogerioaraujo.lirb.R;
+import nf.co.rogerioaraujo.lirb.activity.fragments.TabOneFragment;
+import nf.co.rogerioaraujo.lirb.activity.fragments.TabThreeFragment;
+import nf.co.rogerioaraujo.lirb.activity.fragments.TabTwoFragment;
 import nf.co.rogerioaraujo.lirb.webService.Adapter.CustomAdapter;
 import nf.co.rogerioaraujo.lirb.webService.Data.DataJson;
 
@@ -41,6 +49,11 @@ public class HomeActivity extends AppCompatActivity
 
     private int id;
 
+    // tabs
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
     // cardview data
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
@@ -52,15 +65,25 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // tabs
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         // get data from LoginActivity
         //getUser();
         System.out.println("Test " + userId);
 
+        // floating button options
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
             Intent publishIntent = new Intent(getApplicationContext(), PublishActivity.class);
@@ -80,29 +103,67 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         
         //load data
-        recyclerView = findViewById(R.id.recycler_view);
-        data_list  = new ArrayList<>();
-        loadDataFromServer(0); // id 0, to get the first iten from db
+//        recyclerView = recyclerView.findViewById(R.id.recycler_view);
+//        data_list  = new ArrayList<>();
+//        loadDataFromServer(0); // id 0, to get the first iten from db
+//
+//        gridLayoutManager = new GridLayoutManager(this,2);
+//        recyclerView.setLayoutManager(gridLayoutManager);
+//
+//        adapter = new CustomAdapter(this, data_list);
+//        recyclerView.setAdapter(adapter);
+//
+//        // scroll and load data for more 4 itens
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//
+//                id = data_list.get(data_list.size()-1).getBookId();
+//
+//                if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list.size()-1){
+//                    loadDataFromServer(id);
+//                }
+//
+//            }
+//        });
+    }
 
-        gridLayoutManager = new GridLayoutManager(this,2);
-        recyclerView.setLayoutManager(gridLayoutManager);
+    // tabs on home
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TabOneFragment(), "Recentes");
+        adapter.addFragment(new TabTwoFragment(), "Mais avaliados");
+        adapter.addFragment(new TabThreeFragment(), "Populares");
+        viewPager.setAdapter(adapter);
+    }
 
-        adapter = new CustomAdapter(this, data_list);
-        recyclerView.setAdapter(adapter);
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        // scroll to call load data for more 4 itens
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-                id = data_list.get(data_list.size()-1).getBookId();
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
-                if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list.size()-1){
-                    loadDataFromServer(id);
-                }
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
 
-            }
-        });
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     private void getUser() {
@@ -114,9 +175,6 @@ public class HomeActivity extends AppCompatActivity
         @SuppressLint("StaticFieldLeak") AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
-
-                System.out.println("test : " + id);
-
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url("https://lirb.000webhostapp.com/scriptJson.php?id=" + id)
@@ -159,6 +217,8 @@ public class HomeActivity extends AppCompatActivity
 
         task.execute();
     }
+
+
 
     @Override
     public void onBackPressed() {

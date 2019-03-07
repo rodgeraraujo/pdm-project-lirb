@@ -4,38 +4,35 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
 
-import nf.co.rogerioaraujo.lirb.activity.RegisterActivity;
 import nf.co.rogerioaraujo.lirb.database.MySQL;
 import nf.co.rogerioaraujo.lirb.model.User;
 
 public class RegisterUserService extends AsyncTask<String, String, String> {
-    private ProgressDialog mProgressDialog;
+
     @SuppressLint("StaticFieldLeak")
     private Context context;
+    private ProgressDialog mProgressDialog;
+
     private User user;
     private String msg;
 
-    //query
+    //MySQL instace
+    MySQL mySQL = new MySQL();
+
+    //query SQL
     public static final String INSERT =
             "INSERT INTO sql10281687.user_data(username, email, password, name, dateRegister) VALUES(?,?,MD5(?),?,?)";
 
-    //MySQL instace
-    MySQL mySQL = new MySQL();
 
     public RegisterUserService(Context context, User user) {
         this.context = context;
         this.user = user;
     }
-
-
 
     @Override
     protected void onPreExecute() {
@@ -53,11 +50,8 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
             if (connection == null) {
                 mProgressDialog.dismiss();
                 msg = "Connection goes wrong";
-
             } else {
-                mProgressDialog.setMessage("Connected...");
-                mProgressDialog.dismiss();
-
+                mProgressDialog.setMessage("Conecting to database...");
                 PreparedStatement pstmt = connection.prepareStatement(INSERT);
 
                 pstmt.setString(1, user.getUsername());
@@ -67,7 +61,6 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
                 pstmt.setDate(5, user.getDateRegister());
                 pstmt.executeUpdate();
 
-                mProgressDialog.setMessage("User registed!");
                 mProgressDialog.dismiss();
                 msg = "User registered successfully";
                 return msg;

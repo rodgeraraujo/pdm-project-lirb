@@ -26,4 +26,10 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nibh lectus, rhoncus a rhoncus fringilla, semper eu est. Sed elementum quis mauris sit amet luctus. Vestibulum sed cursus elit, nec congue velit. Curabitur at ante neque. Quisque commodo nisl ut magna porttitor hendrerit. Morbi volutpat egestas eros, id blandit nisi elementum quis. Aliquam magna dolor, imperdiet sit amet viverra ut, finibus eu erat.
     </string>
     <string name="line">____________________________________________</string>
+    <string name="tabOne">Tab one</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tabTwo">Tab two</string>
+    <string name="tabThree">Tab three</string>
 </resources>
