@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -59,27 +60,22 @@ public class TabOneFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tab_one, container, false);
 
+        View view = inflater.inflate(R.layout.fragment_tab_one, container, false);
         // Load data from db and display in a recycler view
-        RecyclerView recyclerView = new RecyclerView(mContext);
-        recyclerView.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
         data_list  = new ArrayList<>();
-        System.out.println("data then load " + data_list);
-        loadDataFromServer(0); // id 0, to get the first iten from db
+        loadDataFromServer(0); // ID 0, to get from first item from db
 
-        System.out.println("data after load " + data_list);
         gridLayoutManager = new GridLayoutManager(mContext,2);
-        
-        recyclerView.hasFixedSize(); // good practice to make our layout more faster
+        recyclerView.hasFixedSize(); // Good practice to make our layout more faster
         recyclerView.setLayoutManager(gridLayoutManager);
 
         adapter = new CustomAdapter(mContext, data_list);
         recyclerView.setAdapter(adapter);
 
-        // Scroll and load data for more 4 itens
+        // Scroll and load more 4 items from db
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -93,8 +89,10 @@ public class TabOneFragment extends Fragment {
             }
         });
 
-        return inflater.inflate(R.layout.fragment_tab_one, container, false);
+        // Inflate the layout for this fragment
+        return view;
     }
+
 
     private void loadDataFromServer(final int id) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
@@ -123,12 +121,10 @@ public class TabOneFragment extends Fragment {
 
                         data_list.add(data);
                     }
-
+                    System.out.println(data_list.toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
-                    //Context c = getApplicationContext();
-                    //Toast.makeText(c, "No more itens to show", Toast.LENGTH_LONG).show();
                     System.out.println("End of content");
                 }
                 return null;

@@ -29,19 +29,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent,false);
 
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         holder.txtTitle.setText(dataJson.get(position).getTitle());
         holder.txtAuthor.setText(dataJson.get(position).getAuthor());
         holder.txtSinopse.setText(dataJson.get(position).getSinopse());
         Glide.with(context).load(dataJson.get(position).getThumbnail()).into(holder.imageView);
-
     }
 
     @Override
@@ -49,17 +47,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return dataJson.size();
     }
 
-    public class ViewHolder extends  RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView txtTitle, txtAuthor, txtSinopse;
         public ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-            txtAuthor = (TextView) itemView.findViewById(R.id.txtAuthor);
-            txtSinopse = (TextView) itemView.findViewById(R.id.txtSinopse);
-            imageView = (ImageView) itemView.findViewById(R.id.image);
+            txtTitle = itemView.findViewById(R.id.txtTitle);
+            txtAuthor = itemView.findViewById(R.id.txtAuthor);
+            txtSinopse = itemView.findViewById(R.id.txtSinopse);
+            imageView = itemView.findViewById(R.id.image);
         }
     }
 }
