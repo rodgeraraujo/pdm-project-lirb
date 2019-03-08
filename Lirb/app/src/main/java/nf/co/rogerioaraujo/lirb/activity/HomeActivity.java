@@ -14,13 +14,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class HomeActivity extends AppCompatActivity
 
     private int id;
 
+    private MaterialSearchView materialSearchView;
+    private String[] list;
     // tabs
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -47,11 +50,52 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // List of suggestions
+        list = new String[]{
+                "Book 01",
+                "BOOK 02",
+                "Author Teste",
+                "Autho 2",
+                "User 1",
+                "User 3",
+                "Book legal ",
+                "Nikan",
+                "Rodger"
+        };
+
+        // Search view
+        materialSearchView = findViewById(R.id.search_view);
+        materialSearchView.closeSearch();
+        materialSearchView.setSuggestions(list);
+        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // here create the filtering
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // make changes in realtime if you typing
+                return false;
+            }
+        });
+
+        materialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+
+        // Tabs
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // tabs
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -68,9 +112,6 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(view -> {
             Intent publishIntent = new Intent(getApplicationContext(), PublishActivity.class);
             startActivity(publishIntent);
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -128,6 +169,21 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu1 this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu1.home, menu);
+        getMenuInflater().inflate(R.menu.menu1, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+
+        if (item == null ) Log.d("rogerio","Valor nulo");
+
+        materialSearchView.setMenuItem(item);
+
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -137,27 +193,20 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

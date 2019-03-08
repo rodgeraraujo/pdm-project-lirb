@@ -43,6 +43,9 @@ dependencies {
     /*Add Library to MySQL*/
     implementation project(':mysql-connector-java-3.0.17-ga-bin')
 
+    /*Add Library to searchView*/
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
     /*Add Library to Material Design*/
     implementation 'com.android.support:design:28.0.0'
 
