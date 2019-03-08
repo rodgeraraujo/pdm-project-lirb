@@ -1,25 +1,26 @@
 package nf.co.rogerioaraujo.lirb.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,12 +55,15 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(view -> {
 
+            ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
+            dialog.setMessage("Carregando, por favor espere...");
+            dialog.show();
             USER = userId.getText().toString();
             PASSWORD = password.getText().toString();
-            URL = "http://lirb.000webhostapp.com/lirb/user_control.php?user="+USER+"&password="+PASSWORD;
-
-            // parse user info to HomeActivity
-            //parseUser(USER);
+//            USER = "rodger";
+//            PASSWORD = "1234567890";
+            String PASSWORD_HASH = md5hashing(PASSWORD);
+            URL = "http://lirb.000webhostapp.com/lirb/user_control.php?user="+USER+"&password="+PASSWORD_HASH;
 
             // make request from url
             request = new StringRequest(Request.Method.POST, URL, response -> {
@@ -73,7 +77,14 @@ public class LoginActivity extends AppCompatActivity {
                                 //"SUCCESS: "+jsonObject.getString("success"),
                                 jsonObject.getString("success"),
                                 Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+                        Intent parse = new Intent(getApplicationContext(), HomeActivity.class);
+                        parse.putExtra("sessionId", USER);
+
+                        dialog.dismiss();
+                        startActivity(parse);
+
+                        //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     }
                     else if(jsonObject.names().get(0).equals("invalid")){
                         Toast.makeText(
@@ -108,15 +119,33 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void parseUser(String USER) {
-        Intent parse = new Intent(this, HomeActivity.class);
-        parse.putExtra("userId", USER);
-        startActivity(parse);
-    }
-
     public void goRegisterActivity(View view) {
         Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(registerIntent);
+    }
+
+    public static String md5hashing(String password) {
+        String hashtext = null;
+        try
+        {
+            String plaintext = password;
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.reset();
+            m.update(plaintext.getBytes());
+            byte[] digest = m.digest();
+            BigInteger bigInt = new BigInteger(1,digest);
+            hashtext = bigInt.toString(16);
+            // Now we need to zero pad it if you actually want the full 32 chars.
+            while(hashtext.length() < 32 ){
+                hashtext = "0"+hashtext;
+            }
+        } catch (Exception e1) {
+            // TODO: handle exception
+            System.out.println();
+            Log.d("md5Hashing",e1.getClass().getName() + ": " + e1.getMessage());
+            //JOptionPane.showMessageDialog(null,e1.getClass().getName() + ": " + e1.getMessage());
+        }
+        return hashtext;
     }
 
 }

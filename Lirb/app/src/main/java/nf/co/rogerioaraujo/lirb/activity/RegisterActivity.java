@@ -1,5 +1,6 @@
 package nf.co.rogerioaraujo.lirb.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void btnConn(View view) {
 
+        ProgressDialog dialog = new ProgressDialog(RegisterActivity.this);
+        dialog.setMessage("Verificando dados, por favor espere...");
+        dialog.show();
+
         java.util.Date newDate = new Date();
         java.sql.Date dateRegister = new java.sql.Date (newDate.getTime());
 
@@ -55,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (user.getUsername().equals("") || user.getEmail().equals("") ||
                 user.getPassword().equals("") || user.getName().equals("")) {
+            dialog.dismiss();
             msg = "Inputs are invalids or void";
         } else {
             try {
@@ -67,10 +73,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
         // clear the inputs TextEdit
         clearInputs();
-        
+
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        dialog.dismiss();
         startActivity(loginIntent);
     }
 

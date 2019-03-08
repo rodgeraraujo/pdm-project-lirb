@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import nf.co.rogerioaraujo.lirb.R;
 import nf.co.rogerioaraujo.lirb.webService.Adapter.CustomAdapter;
@@ -68,7 +67,7 @@ public class TabOneFragment extends Fragment {
         data_list  = new ArrayList<>();
         loadDataFromServer(0); // ID 0, to get from first item from db
 
-        gridLayoutManager = new GridLayoutManager(mContext,2);
+        gridLayoutManager = new GridLayoutManager(mContext,3);
         recyclerView.hasFixedSize(); // Good practice to make our layout more faster
         recyclerView.setLayoutManager(gridLayoutManager);
 

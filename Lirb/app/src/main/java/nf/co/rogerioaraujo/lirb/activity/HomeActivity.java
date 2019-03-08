@@ -34,10 +34,9 @@ import nf.co.rogerioaraujo.lirb.activity.fragments.TabTwoFragment;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private int id;
-
     private MaterialSearchView materialSearchView;
     private String[] list;
+
     // tabs
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -49,6 +48,9 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Get user id
+        getUserSession();
 
         // List of suggestions
         list = new String[]{
@@ -163,9 +165,9 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    private void getUser() {
+    private void getUserSession() {
         Bundle userCode = getIntent().getExtras();
-        userId = userCode.getString("userId");
+        userId = userCode.getString("sessionId");
     }
 
     @Override
@@ -176,7 +178,7 @@ public class HomeActivity extends AppCompatActivity
 
         MenuItem item = menu.findItem(R.id.action_search);
 
-        if (item == null ) Log.d("rogerio","Valor nulo");
+        //if (item == null ) Log.d("rogerio","Valor nulo");
 
         materialSearchView.setMenuItem(item);
 
@@ -193,20 +195,20 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -246,6 +248,10 @@ public class HomeActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_logout) {
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Logout successfully",
+                    Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -15,8 +15,8 @@
     <string name="title_activity_home">Lirb - ReadWriter</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Rogério Araújo</string>
-    <string name="nav_header_subtitle">rogerio@mail.com</string>
+    <string name="nav_header_title">User</string>
+    <string name="nav_header_subtitle">user@mail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nibh lectus, rhoncus a rhoncus fringilla, semper eu est. Sed elementum quis mauris sit amet luctus. Vestibulum sed cursus elit, nec congue velit. Curabitur at ante neque. Quisque commodo nisl ut magna porttitor hendrerit. Morbi volutpat egestas eros, id blandit nisi elementum quis. Aliquam magna dolor, imperdiet sit amet viverra ut, finibus eu erat. </string>
