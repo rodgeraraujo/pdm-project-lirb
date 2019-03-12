@@ -55,15 +55,14 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(view -> {
 
-            ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
-            dialog.setMessage("Carregando, por favor espere...");
-            dialog.show();
             USER = userId.getText().toString();
             PASSWORD = password.getText().toString();
 //            USER = "rodger";
-//            PASSWORD = "1234567890";
+//            PASSWORD = "mnb";
             String PASSWORD_HASH = md5hashing(PASSWORD);
             URL = "http://lirb.000webhostapp.com/lirb/user_control.php?user="+USER+"&password="+PASSWORD_HASH;
+            Log.d("URL",URL);
+            Log.d("PASSWORD",PASSWORD_HASH);
 
             // make request from url
             request = new StringRequest(Request.Method.POST, URL, response -> {
@@ -81,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent parse = new Intent(getApplicationContext(), HomeActivity.class);
                         parse.putExtra("sessionId", USER);
 
-                        dialog.dismiss();
+
                         startActivity(parse);
 
                         //startActivity(new Intent(getApplicationContext(), HomeActivity.class));

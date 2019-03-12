@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
 
     //query SQL
     public static final String INSERT =
-            "INSERT INTO sql10281687.user_data(username, email, password, name, dateRegister) VALUES(?,?,MD5(?),?,?)";
+            "INSERT INTO ZgIlDoFntY.user_data(username, email, password, name, dateRegister) VALUES(?,?,MD5(?),?,?)";
 
 
     public RegisterUserService(Context context, User user) {
@@ -34,24 +35,22 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
         this.user = user;
     }
 
-    @Override
-    protected void onPreExecute() {
-        mProgressDialog = ProgressDialog.show(
-                context,
-                "",
-                "Please wait, getting database...");
-    }
+//    @Override
+//    protected void onPreExecute() {
+//        mProgressDialog = ProgressDialog.show(
+//                context,
+//                "",
+//                "Please wait, getting database...");
+//    }
 
     @Override
     protected String doInBackground(String... strings) {
         try {
             Connection connection = mySQL.newConnection();
-            mProgressDialog.show();
+            Log.d("CONEXÃO", connection+"");
             if (connection == null) {
-                mProgressDialog.dismiss();
                 msg = "Connection goes wrong";
             } else {
-                mProgressDialog.setMessage("Conecting to database...");
                 PreparedStatement pstmt = connection.prepareStatement(INSERT);
 
                 pstmt.setString(1, user.getUsername());
@@ -61,17 +60,16 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
                 pstmt.setDate(5, user.getDateRegister());
                 pstmt.executeUpdate();
 
-                mProgressDialog.dismiss();
                 msg = "User registered successfully";
+
+                pstmt.close();
+                connection.close();
                 return msg;
             }
-
-            connection.close();
         } catch (SQLException e) {
-            mProgressDialog.dismiss();
-            msg = "User not registered";
+//            msg = "User not registered";
             e.printStackTrace();
         }
-        return "";
+        return msg;
     }
 }

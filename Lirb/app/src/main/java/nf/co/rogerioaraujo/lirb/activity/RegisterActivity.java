@@ -67,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                 RegisterUserService register = new RegisterUserService(this, user);
                 msg = register.execute("").get();
             } catch (ExecutionException | InterruptedException e) {
+                dialog.dismiss();
                 e.printStackTrace();
             }
 
@@ -74,11 +75,17 @@ public class RegisterActivity extends AppCompatActivity {
         // clear the inputs TextEdit
         clearInputs();
 
+        dialog.dismiss();
+
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-        Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
-        dialog.dismiss();
-        startActivity(loginIntent);
+        if (!msg.equals("Connection goes wrong")) {
+
+            Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+
+            startActivity(loginIntent);
+        }
+
     }
 
     private void clearInputs() {
