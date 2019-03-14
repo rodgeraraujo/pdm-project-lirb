@@ -34,6 +34,7 @@ import nf.co.rogerioaraujo.lirb.activity.fragments.TabTwoFragment;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // search view
     private MaterialSearchView materialSearchView;
     private String[] list;
 

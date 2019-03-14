@@ -27,17 +27,15 @@ import java.util.Map;
 import nf.co.rogerioaraujo.lirb.R;
 
 public class LoginActivity extends AppCompatActivity {
+    private String USER;
+    private String PASSWORD;
+    private String URL;
 
     private EditText userId, password;
     private Button btnLogin;
 
     private RequestQueue requestQueue;
-    private String USER;
-    private String PASSWORD;
-    private String URL;
-//    private static final String URL = "http://lirb.000webhostapp.com/lirb/user_control.php";
     private StringRequest request;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,58 +62,65 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("URL",URL);
             Log.d("PASSWORD",PASSWORD_HASH);
 
-            // make request from url
-            request = new StringRequest(Request.Method.POST, URL, response -> {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    if(jsonObject.names().get(0).equals("success")){
-                        Toast.makeText(
-                                getApplicationContext(),
-                                //"SUCCESS: "+jsonObject.getString("success"),
-                                jsonObject.getString("success"),
-                                Toast.LENGTH_SHORT).show();
-
-                        Intent parse = new Intent(getApplicationContext(), HomeActivity.class);
-                        parse.putExtra("sessionId", USER);
-
-
-                        startActivity(parse);
-
-                        //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                    }
-                    else if(jsonObject.names().get(0).equals("invalid")){
-                        Toast.makeText(
-                                getApplicationContext(),
-                                //"WARNING: " +jsonObject.getString("invalid"),
-                                jsonObject.getString("invalid"),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                //"ERROR: " +jsonObject.getString("error"),
-                                jsonObject.getString("error"),
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }, error -> {
-            }){
-                @Override
-                protected Map<String, String> getParams() {
-                    HashMap<String,String> hashMap = new HashMap<>();
-                    hashMap.put("userInfo", userId.getText().toString());
-                    hashMap.put("password", password.getText().toString());
-
-                    return hashMap;
-                }
-            };
-            requestQueue.add(request);
+            // make request from url and valid user session
+            validUserCredentials();
         });
+    }
+
+    private void validUserCredentials() {
+
+        request = new StringRequest(Request.Method.POST, URL, response -> {
+            String message;
+
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+
+                if(jsonObject.names().get(0).equals("success")){
+                    message = jsonObject.getString("success");
+                    toastMessage(message);
+//                    Toast.makeText(
+//                            getApplicationContext(),
+//                            //"SUCCESS: "+jsonObject.getString("success"),
+//                            jsonObject.getString("success"),
+//                            Toast.LENGTH_SHORT).show();
+
+                    Intent parse = new Intent(getApplicationContext(), HomeActivity.class);
+                    parse.putExtra("sessionId", USER);
+
+                    startActivity(parse);
+                    //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                }
+                else if(jsonObject.names().get(0).equals("invalid")){
+                    message = jsonObject.getString("invalid");
+                    toastMessage(message);
+                }
+                else {
+                    message = jsonObject.getString("error");
+                    toastMessage(message);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("userInfo", userId.getText().toString());
+                hashMap.put("password", password.getText().toString());
+
+                return hashMap;
+            }
+        };
+        requestQueue.add(request);
+    }
+
+    private void toastMessage(String message) {
+        Toast.makeText(
+                getApplicationContext(),
+                message,
+                Toast.LENGTH_SHORT).show();
     }
 
     public void goRegisterActivity(View view) {

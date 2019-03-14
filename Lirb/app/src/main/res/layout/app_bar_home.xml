@@ -23,15 +23,15 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/MaterialSearchViewStyle" />
-                <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:theme="@style/MaterialSearchViewStyle"/>
+                android:visibility="visible"
+                android:theme="@style/AppTheme.AppBarOverlay"/>
+                <!--android:theme="@style/MaterialSearchViewStyle"/>-->
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
