@@ -67,7 +67,7 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
                 return msg;
             }
         } catch (SQLException e) {
-//            msg = "User not registered";
+            msg = "User not registered";
             e.printStackTrace();
         }
         return msg;
