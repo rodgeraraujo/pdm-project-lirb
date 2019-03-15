@@ -1,4 +1,4 @@
-package nf.co.rogerioaraujo.lirb.activity.fragments;
+package nf.co.rogerioaraujo.lirb.fragments;
 
 
 import android.annotation.SuppressLint;

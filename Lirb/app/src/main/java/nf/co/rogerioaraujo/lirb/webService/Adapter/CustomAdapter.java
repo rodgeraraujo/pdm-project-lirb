@@ -14,7 +14,7 @@ import java.util.List;
 
 import nf.co.rogerioaraujo.lirb.R;
 import nf.co.rogerioaraujo.lirb.activity.HomeActivity;
-import nf.co.rogerioaraujo.lirb.activity.fragments.TabOneFragment;
+import nf.co.rogerioaraujo.lirb.fragments.TabOneFragment;
 import nf.co.rogerioaraujo.lirb.webService.Data.DataJson;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {

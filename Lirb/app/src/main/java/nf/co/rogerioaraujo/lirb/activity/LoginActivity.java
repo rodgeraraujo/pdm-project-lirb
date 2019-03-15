@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(registerIntent);
     }
 
-    public static String md5hashing(String password) {
+    public String md5hashing(String password) {
         String hashtext = null;
         try
         {

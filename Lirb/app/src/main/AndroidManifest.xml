@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="nf.co.rogerioaraujo.lirb">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".activity.WriteBookActivity"
+            android:label="@string/title_activity_write_book"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +47,7 @@
             android:name=".activity.ReaderActivity"
             android:parentActivityName=".activity.HomeActivity" />
         <activity
-            android:name=".activity.PublishActivity"
+            android:name=".activity.PublishEpubActivity"
             android:parentActivityName=".activity.HomeActivity" />
     </application>
 

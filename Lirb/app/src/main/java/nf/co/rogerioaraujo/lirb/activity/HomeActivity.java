@@ -15,10 +15,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nf.co.rogerioaraujo.lirb.R;
-import nf.co.rogerioaraujo.lirb.activity.fragments.TabOneFragment;
-import nf.co.rogerioaraujo.lirb.activity.fragments.TabThreeFragment;
-import nf.co.rogerioaraujo.lirb.activity.fragments.TabTwoFragment;
+import nf.co.rogerioaraujo.lirb.fragments.TabOneFragment;
+import nf.co.rogerioaraujo.lirb.fragments.TabThreeFragment;
+import nf.co.rogerioaraujo.lirb.fragments.TabTwoFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,6 +42,11 @@ public class HomeActivity extends AppCompatActivity
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    // fab menu
+    FloatingActionButton fab1, fab2;
+    TextView pubEpub, writeBook;
+    boolean isFABOpen = false;
 
     private String userId;
 
@@ -110,13 +115,30 @@ public class HomeActivity extends AppCompatActivity
         //getUser();
         System.out.println("Test " + userId);
 
-        // floating button options
+
+        // floating action button with menu
         FloatingActionButton fab = findViewById(R.id.fab);
+        fab1 = findViewById(R.id.fab1);
+        fab2 = findViewById(R.id.fab2);
         fab.setOnClickListener(view -> {
-            Intent publishIntent = new Intent(getApplicationContext(), PublishActivity.class);
+            if(!isFABOpen){
+                showFABMenu();
+            }else{
+                closeFABMenu();
+            }
+        });
+
+        fab1.setOnClickListener(view -> {
+            Intent publishIntent = new Intent(getApplicationContext(), PublishEpubActivity.class);
             startActivity(publishIntent);
         });
 
+        fab2.setOnClickListener(view -> {
+            Intent writingIntent = new Intent(getApplicationContext(), WriteBookActivity.class);
+            startActivity(writingIntent);
+        });
+
+        // drawer menu
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -126,6 +148,19 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    // fab animaitons
+    private void showFABMenu() {
+        isFABOpen=true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void closeFABMenu() {
+        isFABOpen=false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
     }
 
     // tabs on home
@@ -166,6 +201,7 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    // get user id from login
     private void getUserSession() {
         Bundle userCode = getIntent().getExtras();
         userId = userCode.getString("sessionId");

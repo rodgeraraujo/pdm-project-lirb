@@ -36,7 +36,42 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_home"/>
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_home" />
+
+
+    <!-- fab menu animation-->
+      <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:fabCustomSize="45dp"
+        android:scaleType="center"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="22dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|bottom"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_pub_epub"
+        tools:ignore="VectorDrawableCompat" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabCustomSize="45dp"
+        android:scaleType="center"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="22dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|bottom"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_write_book"
+        tools:ignore="VectorDrawableCompat" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -44,9 +79,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimaryDark"
         android:tint="@color/white"
-        app:srcCompat="@drawable/ic_add"
-        tools:ignore="VectorDrawableCompat" />
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:tint="@color/white"-->
+        <!--app:backgroundTint="@color/colorPrimary"-->
+        <!--app:fabSize="mini"-->
+        <!--app:srcCompat="@drawable/ic_add"-->
+        <!--app:menu_fab_label=""-->
+        <!--app:menu_openDirections="up"-->
+        <!--app:menu_showShadow="true"-->
+        <!--tools:ignore="VectorDrawableCompat"-->
+        <!--app:fab_size="mini" />-->
 
 </android.support.design.widget.CoordinatorLayout>

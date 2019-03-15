@@ -14,4 +14,9 @@
     <color name="theme_primary">#000000</color>
     <color name="theme_primary_text_inverted">#808080</color>
     <color name="theme_secondary_text_inverted">#afafd1</color>
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="half_black">#808080</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
 </resources>
