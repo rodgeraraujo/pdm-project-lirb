@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import nf.co.rogerioaraujo.lirb.R;
 
-public class TabThreeFragment extends Fragment {
-    public TabThreeFragment() {
+public class PopularTabFragment extends Fragment {
+    public PopularTabFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +23,7 @@ public class TabThreeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_three, container, false);
+        return inflater.inflate(R.layout.fragment_tab_popular, container, false);
     }
 
 }

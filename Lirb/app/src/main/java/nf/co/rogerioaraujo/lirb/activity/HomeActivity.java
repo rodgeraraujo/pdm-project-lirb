@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nf.co.rogerioaraujo.lirb.R;
-import nf.co.rogerioaraujo.lirb.fragments.TabOneFragment;
-import nf.co.rogerioaraujo.lirb.fragments.TabThreeFragment;
-import nf.co.rogerioaraujo.lirb.fragments.TabTwoFragment;
+import nf.co.rogerioaraujo.lirb.fragments.LatestTabFragment;
+import nf.co.rogerioaraujo.lirb.fragments.PopularTabFragment;
+import nf.co.rogerioaraujo.lirb.fragments.EvaluatedTabFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -166,9 +166,9 @@ public class HomeActivity extends AppCompatActivity
     // tabs on home
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabOneFragment(), "Recentes");
-        adapter.addFragment(new TabTwoFragment(), "Mais avaliados");
-        adapter.addFragment(new TabThreeFragment(), "Populares");
+        adapter.addFragment(new LatestTabFragment(), "Recentes");
+        adapter.addFragment(new EvaluatedTabFragment(), "Mais avaliados");
+        adapter.addFragment(new PopularTabFragment(), "Populares");
         viewPager.setAdapter(adapter);
     }
 
