@@ -58,7 +58,8 @@ public class LoginActivity extends AppCompatActivity {
 //            USER = "rodger";
 //            PASSWORD = "mnb";
             String PASSWORD_HASH = md5hashing(PASSWORD);
-            URL = "http://lirb.000webhostapp.com/lirb/user_control.php?user="+USER+"&password="+PASSWORD_HASH;
+
+            URL = "http://lirb.rf.gd/api/user/userControl.php?user="+USER+"&password="+PASSWORD_HASH;
             Log.d("URL",URL);
             Log.d("PASSWORD",PASSWORD_HASH);
 

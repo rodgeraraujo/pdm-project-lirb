@@ -2,6 +2,7 @@ package nf.co.rogerioaraujo.lirb.services;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +26,7 @@ public class LoadDataService extends AsyncTask<Integer,Void,Void>{
     protected Void doInBackground(Integer... integers) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://lirb.000webhostapp.com/scriptJson.php?id=" + integers[0])
+                .url("http://lirb.rf.gd/api/books/listBooks.php?id=" + integers[0])
                 .build();
         try {
             Response response = client.newCall(request).execute();
@@ -37,11 +38,11 @@ public class LoadDataService extends AsyncTask<Integer,Void,Void>{
                 JSONObject object = array.getJSONObject(i);
 
                 DataJson data = new DataJson(
-                        object.getInt("bookId"),
-                        object.getString("title"),
-                        object.getString("author"),
-                        object.getString("thumbnail"),
-                        object.getString("sinopse")
+                        object.getInt("book_id"),
+                        object.getString("book_title"),
+                        object.getString("book_author"),
+                        object.getString("book_cover"),
+                        object.getString("book_sinopse")
                 );
 
                 data_list.add(data);
@@ -52,8 +53,8 @@ public class LoadDataService extends AsyncTask<Integer,Void,Void>{
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
-            //Context c = getApplicationContext();
-            //Toast.makeText(c, "No more itens to show", Toast.LENGTH_LONG).show();
+//            Context c = getApplicationContext();
+//            Toast.makeText(c, "No more itens to show", Toast.LENGTH_LONG).show();
             System.out.println("End of content");
         }
         return null;

@@ -1,15 +1,41 @@
 package nf.co.rogerioaraujo.lirb.activity;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
+
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+
+import org.json.JSONArray;
+
+import java.io.File;
+import java.io.IOException;
 
 import nf.co.rogerioaraujo.lirb.R;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class PublishEpubActivity extends AppCompatActivity {
 
+    private Button button;
+
+    private String epub_path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +43,108 @@ public class PublishEpubActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Publique uma nova história");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        button = findViewById(R.id.importEpub);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+//                return;
+//            }
+//        }
+
+        enable_button();
+    }
+
+    private void enable_button() {
+        button.setOnClickListener(view -> new MaterialFilePicker()
+                .withActivity(PublishEpubActivity.this)
+                .withRequestCode(10)
+                .start());
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == 100 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+//            enable_button();
+//        } else {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+//            }
+//        }
+//    }
+
+    ProgressDialog progress;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (requestCode == 10 && resultCode == RESULT_OK) {
+
+            progress = new ProgressDialog(PublishEpubActivity.this);
+            progress.setTitle("Uploading");
+            progress.setMessage("Please wait...");
+            progress.show();
+
+            Thread t = new Thread(() -> {
+
+                File f = new File(data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH));
+                String content_type = getMimeType(f.getPath());
+
+                Log.d("FILE::", f + "");
+                Log.d("CONTENT_TYPE::", content_type + "");
+
+                String file_path = f.getAbsolutePath();
+                Log.d("FILE_PATH::", file_path + "");
+
+                OkHttpClient client = new OkHttpClient();
+                RequestBody file_body = RequestBody.create(MediaType.parse(content_type), f);
+
+                Log.d("FILE_BODY::", file_body + "");
+
+                RequestBody request_body = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("type", content_type)
+                        .addFormDataPart("uploaded_file", file_path.substring(file_path.lastIndexOf("/") + 1), file_body)
+
+                        .build();
+
+                Log.d("PATH_REQUEST_BODY::", request_body + "");
+                int userId = 1;
+                Request request = new Request.Builder()
+                        .url("http://lirb.000webhostapp.com/lirb/upload/epub.php?user=u00" + userId)
+                        .post(request_body)
+                        .build();
+
+                Log.d("PATH_REQUEST::", request + "");
+
+                try {
+                    Response response = client.newCall(request).execute();
+
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Error : " + response);
+                    }
+
+                    progress.dismiss();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            });
+
+            t.start();
+
+
+        }
+    }
+
+    private String getMimeType(String path) {
+
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 
     public void goHomeActivity(View view) {

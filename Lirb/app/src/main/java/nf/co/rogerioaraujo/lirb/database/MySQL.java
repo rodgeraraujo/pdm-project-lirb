@@ -15,12 +15,19 @@ public class MySQL {
 //    private final String USER = "ZgIlDoFntY";
 //    private final String PASSWORD = "1C5oAUmCAV";
 
-    private final String HOST = "sql10.freesqldatabase.com";
-    private final String DATA_BASE = "sql10284722";
+//    private final String HOST = "sql10.freesqldatabase.com";
+//    private final String DATA_BASE = "sql10284722";
+//    private final String PORT = "3306";
+//
+//    private final String USER = "sql10284722";
+//    private final String PASSWORD = "LCNew8JwW1";
+
+    private final String HOST = "remotemysql.com";
+    private final String DATA_BASE = "ZgIlDoFntY";
     private final String PORT = "3306";
 
-    private final String USER = "sql10284722";
-    private final String PASSWORD = "LCNew8JwW1";
+    private final String USER = "ZgIlDoFntY";
+    private final String PASSWORD = "1C5oAUmCAV";
 
     private final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATA_BASE;
 

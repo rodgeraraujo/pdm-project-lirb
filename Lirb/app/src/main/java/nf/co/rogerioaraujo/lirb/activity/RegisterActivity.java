@@ -40,8 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void btnConn(View view) {
 
-        Log.d("ENTROU", "1");
-
         ProgressDialog dialog = new ProgressDialog(RegisterActivity.this);
         dialog.setMessage("Verificando dados, por favor espere...");
         dialog.show();
@@ -61,17 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         String msg = "";
 
-        Log.d("USER CRIADO", "2");
-
         if (user.getUsername().equals("") || user.getEmail().equals("") ||
                 user.getPassword().equals("") || user.getName().equals("")) {
             dialog.dismiss();
-            Log.d("VALIDACAO", "2.1");
-            msg = "Inputs are invalids or void";
+            msg = "Entradas inválidas ou vazias";
         } else {
-            Log.d("REGISTER", "2.2");
+
             try {
-                Log.d("TRYCATCH", "3");
                 RegisterUserService register = new RegisterUserService(this, user);
                 msg = register.execute("").get();
             } catch (ExecutionException | InterruptedException e) {
@@ -84,12 +78,11 @@ public class RegisterActivity extends AppCompatActivity {
         clearInputs();
 
         dialog.dismiss();
-        Log.d("SAIU", "9");
+
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-        if (msg.equals("User registered successfully")) {
-            Log.d("CONEXÃO", "10");
-            Log.d("CADASTROU", "o Usuário foi cadastrado");
+        if (msg.equals("Usuário registrado com sucesso")) {
+
             Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
 
             startActivity(loginIntent);
