@@ -5,8 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.mysql.jdbc.Statement;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import nf.co.rogerioaraujo.lirb.database.MySQL;
@@ -20,7 +23,6 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
     private ProgressDialog mProgressDialog;
 
     private Book book;
-    private User user;
     private String msg;
 
     //MySQL instace
@@ -28,12 +30,13 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
 
     //query SQL
     public static final String INSERT =
-            "INSERT INTO ZgIlDoFntY.book_data(user_name, user_email, password, name, dateRegister) VALUES(?,?,MD5(?),?,?)";
+            "INSERT INTO sql10286563.book_data(`book_title`, `book_edition`, `book_pubDate`, " +
+                    "`book_year`, `book_author`, `book_cover`, `book_sinopse`, `book_language`, `book_isbn`, `user_id_fk`)" +
+                    " VALUES(?,?,?,?,?,?,?,?,?,?)";
 
-
-    public RegisterBookService(Context context, User user) {
+    public RegisterBookService(Context context, Book book) {
         this.context = context;
-        this.user = user;
+        this.book = book;
     }
 
 //    @Override
@@ -51,27 +54,45 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
             Connection connection = mySQL.newConnection();
 
             if (connection == null) {
-                msg = "Connection goes wrong";
+                msg = "Problema com a conexão :(";
             } else {
                 PreparedStatement pstmt = connection.prepareStatement(INSERT);
 
-                pstmt.setString(1, user.getUsername());
-                pstmt.setString(2, user.getEmail());
-                pstmt.setString(3, user.getPassword());
-                pstmt.setString(4, user.getName());
-                pstmt.setDate(5, user.getDateRegister());
-                pstmt.executeUpdate();
+                pstmt.setString(1, book.getTitle());
+                pstmt.setString(2, book.getEdition());
+                pstmt.setDate(3, book.getPubDate());
+                pstmt.setInt(4, book.getYear());
+                pstmt.setString(5, book.getAuthor());
+                pstmt.setString(6, book.getCover());
+                pstmt.setString(7, book.getSinopse());
+                pstmt.setString(8, book.getLanguage());
+                pstmt.setString(9, book.getIsbn());
+                pstmt.setInt(10, book.getUser_id());
 
-                msg = "User registered successfully";
+                pstmt.executeUpdate();
+//                pstmt.close();
+
+//                msg = getBookId(connection);
+                msg = "Livro cadastrado com sucesso!";
 
                 pstmt.close();
                 connection.close();
                 return msg;
             }
         } catch (SQLException e) {
-            msg = "User not registered";
+            msg = "Houve algum problema com os dados informados";
             e.printStackTrace();
         }
         return msg;
+    }
+
+    private String getBookId(Connection conn) throws SQLException {
+        String query = "SELECT * FROM book_data WHERE book_isbn = '" + book.getIsbn() +"'";
+
+        Statement st = (Statement) conn.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        int id = rs.getInt("book_id");
+
+        return String.valueOf(id);
     }
 }

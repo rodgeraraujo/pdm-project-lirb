@@ -16,10 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".activity.WriteBookActivity"
-            android:label="@string/title_activity_write_book"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,12 +24,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.LoginActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <activity
+            android:name=".activity.WriteBookActivity"
+            android:label="@string/title_activity_write_book"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.RegisterActivity" />
         <activity
             android:name=".activity.HomeActivity"

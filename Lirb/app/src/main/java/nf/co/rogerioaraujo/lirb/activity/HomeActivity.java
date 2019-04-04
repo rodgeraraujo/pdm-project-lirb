@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import nf.co.rogerioaraujo.lirb.R;
 import nf.co.rogerioaraujo.lirb.fragments.LatestTabFragment;
@@ -56,7 +58,9 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         // Get user id
-        getUserSession();
+        Bundle userCode = getIntent().getExtras();
+        userId = Objects.requireNonNull(userCode).getString("SESSION_ID");
+
 
         // List of suggestions
         list = new String[]{
@@ -111,11 +115,6 @@ public class HomeActivity extends AppCompatActivity
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        // get data from LoginActivity
-        //getUser();
-        System.out.println("Test " + userId);
-
-
         // floating action button with menu
         FloatingActionButton fab = findViewById(R.id.fab);
         fab1 = findViewById(R.id.fab1);
@@ -130,7 +129,19 @@ public class HomeActivity extends AppCompatActivity
 
         fab1.setOnClickListener(view -> {
             Intent publishIntent = new Intent(getApplicationContext(), PublishEpubActivity.class);
+            publishIntent.putExtra("USER_ID", userId);
             startActivity(publishIntent);
+
+//            Intent intent = new Intent(context, BookActivity.class);
+//
+//            // parsing data to the book activity
+//            intent.putExtra("Title", dataJson.get(position).getTitle());
+//            intent.putExtra("Author", dataJson.get(position).getAuthor());
+//            intent.putExtra("Sinopse", dataJson.get(position).getSinopse());
+//            intent.putExtra("Thumbnail", dataJson.get(position).getThumbnail());
+//
+//            // start the activity
+//            context.startActivity(intent);
         });
 
         fab2.setOnClickListener(view -> {
@@ -199,12 +210,6 @@ public class HomeActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    // get user id from login
-    private void getUserSession() {
-        Bundle userCode = getIntent().getExtras();
-        userId = userCode.getString("sessionId");
     }
 
     @Override

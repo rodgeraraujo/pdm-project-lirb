@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nbsp.materialfilepicker.MaterialFilePicker;
@@ -24,10 +25,16 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLOutput;
+import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import nf.co.rogerioaraujo.lirb.R;
+import nf.co.rogerioaraujo.lirb.model.Book;
+import nf.co.rogerioaraujo.lirb.services.DatabaseSelectService;
+import nf.co.rogerioaraujo.lirb.services.RegisterBookService;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -37,40 +44,54 @@ import okhttp3.Response;
 
 public class PublishEpubActivity extends AppCompatActivity {
 
-    private TextInputLayout textInputTitulo, textInputEdicao, textInputAno, textInputSinopse, textInputIdioma;
-    private Button fileInputCover, fileInputEpub;
+    private TextInputLayout textInputTitulo, textInputAutor, textInputEdicao, textInputAno, textInputIsbn, textInputSinopse, textInputIdioma;
+    private Button fileInputCover, fileInputEpub, buttonInputPublish;
     private String epubPath, coverPath;
 
+    private String USER_ID;
 
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
 
+        // get id from user session
+        Intent intent = getIntent();
+        USER_ID = intent.getExtras().getString("USER_ID");
+
         Objects.requireNonNull(getSupportActionBar()).setTitle("Publique uma nova história");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fileInputEpub = findViewById(R.id.item_file_Epub);
+        fileInputCover = findViewById(R.id.item_input_Cover);
+        buttonInputPublish = findViewById(R.id.inputButtonPublish);
 
         // to get epub path from storage
-        fileInputEpub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MaterialFilePicker()
-                        .withActivity(PublishEpubActivity.this)
-                        .withRequestCode(1)
-                        .withFilter(Pattern.compile(".*\\.epub$")) // Filtering files and directories by file name using regexp
-                        .withFilterDirectories(true) // Set directories filterable (false by default)
-                        .withHiddenFiles(true) // Show hidden files and folders
-                        .start();
-            }
-        });
+        fileInputEpub.setOnClickListener(v -> new MaterialFilePicker()
+                .withActivity(PublishEpubActivity.this)
+                .withRequestCode(1)
+                .withFilter(Pattern.compile(".*\\.epub")) // Filtering files and directories by file name using regexp
+                .withFilterDirectories(false) // Set directories filterable (false by default)
+                .withHiddenFiles(true) // Show hidden files and folders
+                .start());
 
+        fileInputCover.setOnClickListener(v -> new MaterialFilePicker()
+                .withActivity(PublishEpubActivity.this)
+                .withRequestCode(2)
+                .withFilter(Pattern.compile(".*\\.jpg$")) // Filtering files and directories by file name using regexp
+                .withFilterDirectories(false) // Set directories filterable (false by default)
+                .withHiddenFiles(true) // Show hidden files and folders
+                .start());
+
+        // get text from inputs
         textInputTitulo = findViewById(R.id.text_input_Title);
+        textInputAutor = findViewById(R.id.text_input_Author);
+        textInputSinopse = findViewById(R.id.text_input_Sinopse);
         textInputEdicao = findViewById(R.id.text_input_Edition);
         textInputAno = findViewById(R.id.text_input_Year);
-        textInputSinopse = findViewById(R.id.text_input_Sinopse);
+        textInputIsbn = findViewById(R.id.text_input_Isbn);
         textInputIdioma = findViewById(R.id.text_input_Language);
 
     }
@@ -186,17 +207,26 @@ public class PublishEpubActivity extends AppCompatActivity {
 
     // get file path
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             epubPath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            fileInputEpub.setText(epubPath);
 
-            Toast.makeText(this, epubPath, Toast.LENGTH_SHORT).show();
-            // Do anything with file
+
+//            Toast.makeText(this, epubPath, Toast.LENGTH_LONG).show();
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
+            coverPath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            fileInputCover.setText(coverPath);
+
+
         }
     }
+
+
 
     // functions to valid inputs
     private boolean validateTitle() {
@@ -262,16 +292,128 @@ public class PublishEpubActivity extends AppCompatActivity {
         }
     }
 
+    private boolean validateIsbn() {
+        String isbnInput = Objects.requireNonNull(textInputIsbn.getEditText()).getText().toString().trim();
+
+        if (isbnInput.isEmpty()) {
+            textInputIsbn.setError("Não pode estar vazio");
+            return false;
+        } else {
+            textInputIsbn.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateAuthor() {
+        String autorInput = Objects.requireNonNull(textInputAutor.getEditText()).getText().toString().trim();
+
+        if (autorInput.isEmpty()) {
+            textInputAutor.setError("Não pode estar vazio");
+            return false;
+        } else {
+            textInputAutor.setError(null);
+            return true;
+        }
+    }
+
     public void publicarEpub(View v) {
-        if (!validateTitle() | !validateEdition() | !validateSinopse() | validateYear() | validateLanguage()) {
-            return;
+//        if (!validateTitle() | !validateEdition() | !validateSinopse() |
+//                !validateYear() | !validateLanguage() | !validateIsbn() | !validateAuthor()) {
+//            return;
+//        }
+
+        buttonInputPublish.setText("Publicando...");
+
+        String epubPath = fileInputEpub.getText().toString();
+        String coverPath = fileInputCover.getText().toString();
+
+        try {
+
+            // select the amount of books the user have
+            DatabaseSelectService selectService = new DatabaseSelectService(this, USER_ID);
+            String result = selectService.execute("").get();
+            int ID_USER = Integer.parseInt(result.substring(0,1));
+            int ID_BOOK = Integer.parseInt(result.substring(result.lastIndexOf("-") + 1));
+
+            String EXTENSION = coverPath.substring(coverPath.lastIndexOf("."));
+
+            String cover = "http://lirb.000webhostapp.com/api/upload/images/user_u00" + ID_USER + "/" + "book_u00" + ID_BOOK + EXTENSION;
+
+            String titulo = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString();
+            String autor = Objects.requireNonNull(textInputAutor.getEditText()).getText().toString();
+            String edicao = Objects.requireNonNull(textInputEdicao.getEditText()).getText().toString();
+            int ano = Integer.parseInt(Objects.requireNonNull(textInputAno.getEditText()).getText().toString());
+            String sinopse = Objects.requireNonNull(textInputSinopse.getEditText()).getText().toString();
+            String isbn = Objects.requireNonNull(textInputIsbn.getEditText()).getText().toString();
+            String idioma = Objects.requireNonNull(textInputIdioma.getEditText()).getText().toString();
+
+            java.util.Date newDate = new Date();
+            java.sql.Date pubDate = new java.sql.Date (newDate.getTime());
+
+            // create book object
+            Book book = new Book(titulo, edicao, pubDate, ano, autor, cover, sinopse, idioma, isbn, ID_USER);
+
+            // instace book register service
+            RegisterBookService register = new RegisterBookService(this, book);
+            String msg = register.execute("").get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        String titulo = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString();
-        String edicao = Objects.requireNonNull(textInputEdicao.getEditText()).getText().toString();
-        String ano = Objects.requireNonNull(textInputAno.getEditText()).getText().toString();
-        String sinopse = Objects.requireNonNull(textInputSinopse.getEditText()).getText().toString();
-        String idioma = Objects.requireNonNull(textInputIdioma.getEditText()).getText().toString();
+    }
 
+    private void uploadFile(String url, String file) {
+        progress = new ProgressDialog(PublishEpubActivity.this);
+        progress.setTitle("Uploading");
+        progress.setMessage("Please wait...");
+        progress.show();
+
+        Thread t = new Thread(() -> {
+
+            File f  = new File(file);
+            String content_type  = getMimeType(f.getPath());
+
+            String file_path = f.getAbsolutePath();
+            OkHttpClient client = new OkHttpClient();
+            RequestBody file_body = RequestBody.create(MediaType.parse(content_type),f);
+
+            RequestBody request_body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("type",content_type)
+                    .addFormDataPart("uploaded_file",file_path.substring(file_path.lastIndexOf("/")+1), file_body)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+//                    .url("https://lirb.000webhostapp.com/api/upload/uploadPic.php")
+                    .post(request_body)
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+
+                if(!response.isSuccessful()){
+                    throw new IOException("Error : "+response);
+                }
+
+                progress.dismiss();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        });
+
+        t.start();
+    }
+
+    private String getMimeType(String path) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(path);
+
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 }

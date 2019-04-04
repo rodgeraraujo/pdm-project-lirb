@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 //                            Toast.LENGTH_SHORT).show();
 
                     Intent parse = new Intent(getApplicationContext(), HomeActivity.class);
-                    parse.putExtra("sessionId", USER);
+                    parse.putExtra("SESSION_ID", USER);
 
                     startActivity(parse);
                     //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
