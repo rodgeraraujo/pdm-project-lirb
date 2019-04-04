@@ -215,18 +215,12 @@ public class PublishEpubActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             epubPath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             fileInputEpub.setText(epubPath);
-
-
 //            Toast.makeText(this, epubPath, Toast.LENGTH_LONG).show();
         } else if (requestCode == 2 && resultCode == RESULT_OK) {
             coverPath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             fileInputCover.setText(coverPath);
-
-
         }
     }
-
-
 
     // functions to valid inputs
     private boolean validateTitle() {
@@ -317,15 +311,17 @@ public class PublishEpubActivity extends AppCompatActivity {
     }
 
     public void publicarEpub(View v) {
-//        if (!validateTitle() | !validateEdition() | !validateSinopse() |
-//                !validateYear() | !validateLanguage() | !validateIsbn() | !validateAuthor()) {
-//            return;
-//        }
+        if (!validateTitle() | !validateEdition() | !validateSinopse() |
+                !validateYear() | !validateLanguage() | !validateIsbn() | !validateAuthor()) {
+            return;
+        }
+
+        progress = new ProgressDialog(PublishEpubActivity.this);
+        progress.setTitle("Uploading");
+        progress.setMessage("Please wait...");
+        progress.show();
 
         buttonInputPublish.setText("Publicando...");
-
-        String epubPath = fileInputEpub.getText().toString();
-        String coverPath = fileInputCover.getText().toString();
 
         try {
 
@@ -335,9 +331,11 @@ public class PublishEpubActivity extends AppCompatActivity {
             int ID_USER = Integer.parseInt(result.substring(0,1));
             int ID_BOOK = Integer.parseInt(result.substring(result.lastIndexOf("-") + 1));
 
+            System.out.println(result);
+
             String EXTENSION = coverPath.substring(coverPath.lastIndexOf("."));
 
-            String cover = "http://lirb.000webhostapp.com/api/upload/images/user_u00" + ID_USER + "/" + "book_u00" + ID_BOOK + EXTENSION;
+            String cover = "http://lirb.000webhostapp.com/api/upload/images/user_u00" + ID_USER + "/" + "book_b00" + ID_BOOK + EXTENSION;
 
             String titulo = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString();
             String autor = Objects.requireNonNull(textInputAutor.getEditText()).getText().toString();
@@ -357,6 +355,18 @@ public class PublishEpubActivity extends AppCompatActivity {
             RegisterBookService register = new RegisterBookService(this, book);
             String msg = register.execute("").get();
 
+            String URL = "https://lirb.000webhostapp.com/api/reader/createEpub.php?user="+ID_USER+"&book="+ID_BOOK+"&id="+msg;
+            System.out.println(URL);
+            uploadFile(URL, epubPath);
+
+            String URL_2 = "https://lirb.000webhostapp.com/api/upload/uploadPic.php?user="+ID_USER+"&book="+ID_BOOK;
+            System.out.println(URL_2);
+            uploadFile(URL_2, coverPath);
+
+            progress.dismiss();
+
+            Toast.makeText(this, "Livro publicado com sucesso!", Toast.LENGTH_SHORT).show();
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -366,11 +376,6 @@ public class PublishEpubActivity extends AppCompatActivity {
     }
 
     private void uploadFile(String url, String file) {
-        progress = new ProgressDialog(PublishEpubActivity.this);
-        progress.setTitle("Uploading");
-        progress.setMessage("Please wait...");
-        progress.show();
-
         Thread t = new Thread(() -> {
 
             File f  = new File(file);
@@ -399,12 +404,9 @@ public class PublishEpubActivity extends AppCompatActivity {
                     throw new IOException("Error : "+response);
                 }
 
-                progress.dismiss();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
 
         });
 

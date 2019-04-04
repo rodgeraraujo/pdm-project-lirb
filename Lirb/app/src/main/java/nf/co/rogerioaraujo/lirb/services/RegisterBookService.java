@@ -72,8 +72,8 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
                 pstmt.executeUpdate();
 //                pstmt.close();
 
-//                msg = getBookId(connection);
-                msg = "Livro cadastrado com sucesso!";
+                msg = getBookId(connection);
+//                msg = "Livro cadastrado com sucesso!";
 
                 pstmt.close();
                 connection.close();
@@ -87,12 +87,13 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
     }
 
     private String getBookId(Connection conn) throws SQLException {
-        String query = "SELECT * FROM book_data WHERE book_isbn = '" + book.getIsbn() +"'";
-
+        String query = "SELECT book_id FROM book_data WHERE book_isbn = '" + book.getIsbn() +"'";
         Statement st = (Statement) conn.createStatement();
         ResultSet rs = st.executeQuery(query);
-        int id = rs.getInt("book_id");
-
-        return String.valueOf(id);
+        if (rs.next()) {
+           int id = rs.getInt(1);
+           return String.valueOf(id);
+        }
+        return "";
     }
 }
