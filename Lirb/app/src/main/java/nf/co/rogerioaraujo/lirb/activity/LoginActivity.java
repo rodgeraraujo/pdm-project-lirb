@@ -53,13 +53,13 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(view -> {
 
-            USER = userId.getText().toString();
-            PASSWORD = password.getText().toString();
-//            USER = "rodger";
-//            PASSWORD = "mnb";
+//            USER = userId.getText().toString();
+//            PASSWORD = password.getText().toString();
+            USER = "rodger";
+            PASSWORD = "mnb";
             String PASSWORD_HASH = md5hashing(PASSWORD);
-
-            URL = "http://lirb.rf.gd/api/user/userControl.php?user="+USER+"&password="+PASSWORD_HASH;
+//            URL = "http://lirb.rf.gd/api/user/userControl.php?user="+USER+"&password="+PASSWORD_HASH;
+            URL = "https://lirb.000webhostapp.com/api/user/user_control.php?user="+USER+"&password="+PASSWORD_HASH;
             Log.d("URL",URL);
             Log.d("PASSWORD",PASSWORD_HASH);
 

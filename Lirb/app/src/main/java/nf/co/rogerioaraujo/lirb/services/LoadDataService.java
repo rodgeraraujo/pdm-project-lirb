@@ -26,11 +26,11 @@ public class LoadDataService extends AsyncTask<Integer,Void,Void>{
     protected Void doInBackground(Integer... integers) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://lirb.rf.gd/api/books/listBooks.php?id=" + integers[0])
+                .url("https://lirb.000webhostapp.com/api/book/listBooks.php?id=" + integers[0])
                 .build();
         try {
             Response response = client.newCall(request).execute();
-
+            System.out.println(response.body());
             JSONArray array = new JSONArray(response.body().string());
 
             for (int i=0; i<array.length(); i++){

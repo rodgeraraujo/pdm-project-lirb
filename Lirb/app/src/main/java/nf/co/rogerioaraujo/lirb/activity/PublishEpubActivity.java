@@ -44,7 +44,7 @@ public class PublishEpubActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Publique uma nova história");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        button = findViewById(R.id.importEpub);
+//        button = findViewById(R.id.importEpub);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -53,7 +53,7 @@ public class PublishEpubActivity extends AppCompatActivity {
 //            }
 //        }
 
-        enable_button();
+//        enable_button();
     }
 
     private void enable_button() {
@@ -111,9 +111,10 @@ public class PublishEpubActivity extends AppCompatActivity {
                         .build();
 
                 Log.d("PATH_REQUEST_BODY::", request_body + "");
-                int userId = 1;
+                int USER_ID = 1;
+                int BOOK_ID = 2;
                 Request request = new Request.Builder()
-                        .url("http://lirb.000webhostapp.com/lirb/upload/epub.php?user=u00" + userId)
+                        .url("https://lirb.000webhostapp.com/api/reader/createEpub.php?user=" + USER_ID + "&book=" + BOOK_ID)
                         .post(request_body)
                         .build();
 

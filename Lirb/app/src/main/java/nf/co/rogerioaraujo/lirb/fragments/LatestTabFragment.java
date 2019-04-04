@@ -96,7 +96,7 @@ public class LatestTabFragment extends Fragment {
             protected Void doInBackground(Integer... integers) {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("https://lirb.000webhostapp.com/scriptJson.php?id=" + id)
+                        .url("https://lirb.000webhostapp.com/api/book/listBooks.php?id=" + id)
                         .build();
                 try {
                     Response response = client.newCall(request).execute();
@@ -108,11 +108,11 @@ public class LatestTabFragment extends Fragment {
                         JSONObject object = array.getJSONObject(i);
 
                         DataJson data = new DataJson(
-                                object.getInt("bookId"),
-                                object.getString("title"),
-                                object.getString("author"),
-                                object.getString("thumbnail"),
-                                object.getString("sinopse")
+                                object.getInt("book_id"),
+                                object.getString("book_title"),
+                                object.getString("book_author"),
+                                object.getString("book_cover"),
+                                object.getString("book_sinopse")
                         );
 
                         data_list.add(data);
