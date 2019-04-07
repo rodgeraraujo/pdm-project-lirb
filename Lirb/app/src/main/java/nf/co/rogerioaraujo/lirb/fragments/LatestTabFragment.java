@@ -96,8 +96,9 @@ public class LatestTabFragment extends Fragment {
             protected Void doInBackground(Integer... integers) {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("https://lirb.000webhostapp.com/api/book/listBooks.php?id=" + id)
+                        .url("http://192.168.1.139/rodger/api/book/listBooks.php?id=" + id)
                         .build();
+
                 try {
                     Response response = client.newCall(request).execute();
 
@@ -117,7 +118,9 @@ public class LatestTabFragment extends Fragment {
 
                         data_list.add(data);
                     }
-                    System.out.println(data_list.toString());
+
+                    response.close();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

@@ -53,6 +53,15 @@
                 android:layout_height="wrap_content"
                 android:text="Sinopse"/>
 
+            <Button
+                android:id="@+id/button_read_Book"
+                android:layout_marginTop="50dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/darkGray"
+                android:textColor="@color/white"
+                android:text="Ler livro" />
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

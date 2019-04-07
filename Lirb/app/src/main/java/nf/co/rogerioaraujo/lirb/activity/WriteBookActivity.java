@@ -1,6 +1,7 @@
 package nf.co.rogerioaraujo.lirb.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,8 +17,12 @@ public class WriteBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_book);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Drawable d=getResources().getDrawable(R.drawable.background_book);
+        getActionBar().setBackgroundDrawable(d);
 
         getSupportActionBar().setTitle("Escreva sua história");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

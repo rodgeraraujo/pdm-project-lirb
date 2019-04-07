@@ -37,24 +37,23 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+//        holder.txtId.setText(dataJson.get(position).getBookId());
         holder.txtTitle.setText(dataJson.get(position).getTitle());
 //        holder.txtAuthor.setText(dataJson.get(position).getAuthor());
 //        holder.txtSinopse.setText(dataJson.get(position).getSinopse());
         Glide.with(context).load(dataJson.get(position).getThumbnail()).into(holder.imageView);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, BookActivity.class);
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, BookActivity.class);
 
-                // parsing data to the book activity
-                intent.putExtra("Title", dataJson.get(position).getTitle());
-                intent.putExtra("Author", dataJson.get(position).getAuthor());
-                intent.putExtra("Sinopse", dataJson.get(position).getSinopse());
-                intent.putExtra("Thumbnail", dataJson.get(position).getThumbnail());
+            // parsing data to the book activity
+            intent.putExtra("ID", dataJson.get(position).getBookId());
+            intent.putExtra("Title", dataJson.get(position).getTitle());
+            intent.putExtra("Author", dataJson.get(position).getAuthor());
+            intent.putExtra("Sinopse", dataJson.get(position).getSinopse());
+            intent.putExtra("Thumbnail", dataJson.get(position).getThumbnail());
 
-                // start the activity
-                context.startActivity(intent);
-            }
+            // start the activity
+            context.startActivity(intent);
         });
     }
 
@@ -65,12 +64,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtTitle, txtAuthor, txtSinopse;
+        TextView txtTitle, txtAuthor, txtSinopse, txtId;
         ImageView imageView;
         CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            //txtId = itemView.findViewById(R.id.txtId);
             txtTitle = itemView.findViewById(R.id.txtTitle);
 //            txtAuthor = itemView.findViewById(R.id.txtAuthor);
 //            txtSinopse = itemView.findViewById(R.id.txtSinopse);

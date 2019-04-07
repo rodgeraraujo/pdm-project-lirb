@@ -17,26 +17,18 @@ public class DatabaseSelectService extends AsyncTask<String, String, String> {
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
-    private ProgressDialog mProgressDialog;
-
-//    private String SELECT = "SELECT\n" +
-//            "   count(book_data.book_title) AS quantidade\n" +
-//            "FROM\n" +
-//            "   user_data\n" +
-//            "INNER JOIN\n" +
-//            "   book_data ON user_data.user_id = book_data.user_id_fk\n" +
-//            "WHERE\n" +
-//            "user_data.user_name = '"+ user_id + "' OR user_data.user_email = '" + user_id + "'";
 
     private String user_id;
     private String msg;
+    private int type;
 
     //MySQL instace
     MySQL mySQL = new MySQL();
 
-    public DatabaseSelectService(Context context, String user_id) {
+    public DatabaseSelectService(Context context, String user_id, int type) {
         this.context = context;
         this.user_id = user_id;
+        this.type = type;
     }
 
     @Override
@@ -49,32 +41,50 @@ public class DatabaseSelectService extends AsyncTask<String, String, String> {
                 msg = "Problema com a conexão :(";
             } else {
 
-                String SELECT = "SELECT\n" +
-                        "   user_data.user_id AS id," +
-                        "   count(book_data.book_title) AS quantidade\n" +
-                        "FROM\n" +
-                        "   user_data\n" +
-                        "INNER JOIN\n" +
-                        "   book_data ON user_data.user_id = book_data.user_id_fk\n" +
-                        "WHERE\n" +
-                        "user_data.user_name = '"+ user_id + "' OR user_data.user_email = '" + user_id + "'";
+                if (this.type == 1) {
 
-                Statement st = (Statement) connection.createStatement();
-                ResultSet rs = st.executeQuery(SELECT);
+                    String query = "SELECT\n" +
+                            "   count(book_data.book_title) AS quantidade\n" +
+                            "FROM\n" +
+                            "   user_data\n" +
+                            "INNER JOIN\n" +
+                            "   book_data ON user_data.user_id = book_data.user_id_fk\n" +
+                            "WHERE\n" +
+                            "user_data.user_name = '"+ user_id + "' OR user_data.user_email = '" + user_id + "'";
+                    msg = executeQuery(connection, query);
+                    return msg;
 
-                while (rs.next()){
-                    String id = String.valueOf(rs.getInt(1));
-                    String quantidade = String.valueOf(rs.getInt(2));
-                    msg =  id + "-" + quantidade;
+                } else if (this.type == 2) {
+
+                    String query = "SELECT user_data.user_id AS id\n" +
+                            "FROM user_data " +
+                            "WHERE user_data.user_name = '"+ user_id + "' OR user_data.user_email = '" + user_id + "'";
+                    msg = executeQuery(connection, query);
+                    return msg;
+
                 }
 
                 connection.close();
-                return msg;
+                return "";
             }
         } catch (SQLException e) {
             msg = "Houve algum problema tente novamente";
             e.printStackTrace();
         }
         return msg;
+    }
+
+    private String executeQuery(Connection connection, String query) throws SQLException {
+
+        Statement st = (Statement) connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()){
+            String id = String.valueOf(rs.getInt(1));
+            st.close();
+            return id;
+        }
+        st.close();
+        return "";
     }
 }

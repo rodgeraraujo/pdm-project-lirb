@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 public class MySQL {
 
+    // database #1
 //    private final String HOST = "remotemysql.com";
 //    private final String DATA_BASE = "ZgIlDoFntY";
 //    private final String PORT = "3306";
@@ -15,19 +16,28 @@ public class MySQL {
 //    private final String USER = "ZgIlDoFntY";
 //    private final String PASSWORD = "1C5oAUmCAV";
 
-    private final String HOST = "sql10.freesqldatabase.com";
-    private final String DATA_BASE = "sql10286563";
+    //database #2
+//    private final String HOST = "sql10.freesqldatabase.com";
+//    private final String DATA_BASE = "sql10286563";
+//    private final String PORT = "3306";
+//
+//    private final String USER = "sql10286563";
+//    private final String PASSWORD = "TIIncHp29L";
+
+    //database #3
+//    private final String HOST = "remotemysql.com";
+//    private final String DATA_BASE = "ZgIlDoFntY";
+//    private final String PORT = "3306";
+//
+//    private final String USER = "ZgIlDoFntY";
+//    private final String PASSWORD = "1C5oAUmCAV";
+
+    private final String HOST = "192.168.1.139";
+    private final String DATA_BASE = "lirb_data";
     private final String PORT = "3306";
 
-    private final String USER = "sql10286563";
-    private final String PASSWORD = "TIIncHp29L";
-
-//    private final String HOST = "remotemysql.com";
-//    private final String DATA_BASE = "ZgIlDoFntY";
-//    private final String PORT = "3306";
-//
-//    private final String USER = "ZgIlDoFntY";
-//    private final String PASSWORD = "1C5oAUmCAV";
+    private final String USER = "root";
+    private final String PASSWORD = "pass";
 
     private final String URL = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DATA_BASE;
 
@@ -35,9 +45,8 @@ public class MySQL {
     }
 
     public Connection newConnection() {
-        Log.d("CONEXÃO", "6");
         try {
-            Log.d("CONEXÃO", "7.1");
+            Log.d("CONN", "1");
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             return DriverManager
                     .getConnection(
@@ -46,11 +55,9 @@ public class MySQL {
                             PASSWORD
                     );
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException | SQLException e) {
-            Log.d("CONEXÃO", "7.2");
             e.printStackTrace();
         }
-
-        Log.d("CONEXÃO", "7.3");
+        Log.d("CONN", "2");
         return null;
     }
 

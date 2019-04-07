@@ -58,9 +58,15 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         // Get user id
-        Bundle userCode = getIntent().getExtras();
-        userId = Objects.requireNonNull(userCode).getString("SESSION_ID");
-
+        Intent intent = getIntent();
+        if(intent.hasExtra("SESSION_ID")){
+            Bundle userCode = getIntent().getExtras();
+            if(!userCode.getString("SESSION_ID").equals(null)){
+                userId = userCode.getString("SESSION_ID");
+            }
+        }
+//        Bundle userCode = getIntent().getExtras();
+//        userId = userCode.getString("SESSION_ID");
 
         // List of suggestions
         list = new String[]{

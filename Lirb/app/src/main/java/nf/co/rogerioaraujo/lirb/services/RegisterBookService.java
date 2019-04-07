@@ -30,7 +30,7 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
 
     //query SQL
     public static final String INSERT =
-            "INSERT INTO sql10286563.book_data(`book_title`, `book_edition`, `book_pubDate`, " +
+            "INSERT INTO lirb_data.book_data(`book_title`, `book_edition`, `book_pubDate`, " +
                     "`book_year`, `book_author`, `book_cover`, `book_sinopse`, `book_language`, `book_isbn`, `user_id_fk`)" +
                     " VALUES(?,?,?,?,?,?,?,?,?,?)";
 
