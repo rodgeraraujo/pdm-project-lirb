@@ -70,9 +70,9 @@ public class HomeActivity extends AppCompatActivity
 
         // List of suggestions
         list = new String[]{
-                "Book 01",
-                "BOOK 02",
-                "Author Teste",
+                "O Lobo vermelho",
+                "R. S. Araújo",
+                "Sim",
                 "Autho 2",
                 "User 1",
                 "User 3",
@@ -85,6 +85,7 @@ public class HomeActivity extends AppCompatActivity
         materialSearchView = findViewById(R.id.search_view);
         materialSearchView.closeSearch();
         materialSearchView.setSuggestions(list);
+
         materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

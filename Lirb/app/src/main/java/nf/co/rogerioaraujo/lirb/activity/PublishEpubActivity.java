@@ -50,6 +50,8 @@ public class PublishEpubActivity extends AppCompatActivity {
     private String epubPath, coverPath;
 
     private String USER_ID;
+    private int id_user;
+    private int id_book;
 
     ProgressDialog progress;
 
@@ -211,63 +213,42 @@ public class PublishEpubActivity extends AppCompatActivity {
             return;
         }
 
-//        progress = new ProgressDialog(PublishEpubActivity.this);
-//        progress.setTitle("Uploading");
-//        progress.setMessage("Please wait...");
-//        progress.show();
-
-        buttonInputPublish.setText("Publicando...");
-
         try {
+            progress = new ProgressDialog(PublishEpubActivity.this);
+            progress.setTitle("Publicando...");
+            progress.setMessage("Espere um pouco...");
+            progress.show();
+
+            buttonInputPublish.setText("Publicando...");
+
+
             // select the amount of books the user have
-            DatabaseSelectService selectUserId = new DatabaseSelectService(this, USER_ID, 1);
-            int id_book = Integer.parseInt(selectUserId.execute("").get());
+            getBookId();
 
             // select the user id
-            DatabaseSelectService selectBooksCount = new DatabaseSelectService(this, USER_ID, 2);
-            int id_user = Integer.parseInt(selectBooksCount.execute("").get());
+            getUserId();
 
-            // select .jpg from image path
-            String extension = coverPath.substring(coverPath.lastIndexOf("."));
+            progress.setMessage("Salvando informações...");
+            // save book info on database
+            String idBook = saveBookInfo();
 
-            String cover = "http://192.168.1.139/rodger/api/upload/images/user_u00" + id_user + "/" + "book_b00" + id_book + extension;
-
-            String titulo = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString();
-            String autor = Objects.requireNonNull(textInputAutor.getEditText()).getText().toString();
-            String edicao = Objects.requireNonNull(textInputEdicao.getEditText()).getText().toString();
-            int ano = Integer.parseInt(Objects.requireNonNull(textInputAno.getEditText()).getText().toString());
-            String sinopse = Objects.requireNonNull(textInputSinopse.getEditText()).getText().toString();
-            String isbn = Objects.requireNonNull(textInputIsbn.getEditText()).getText().toString();
-            String idioma = Objects.requireNonNull(textInputIdioma.getEditText()).getText().toString();
-
-            java.util.Date newDate = new Date();
-            java.sql.Date pubDate = new java.sql.Date (newDate.getTime());
-
-            // create book object
-            Book book = new Book(titulo, edicao, pubDate, ano, autor, cover, sinopse, idioma, isbn, id_user);
-
-            // register book info on db
-            RegisterBookService register = new RegisterBookService(this, book);
-            String msg = register.execute("").get();
-
-            String url_epub = "http://192.168.1.139/rodger/api/reader/createEpub.php?user="+id_user+"&book="+id_book+"&id="+msg;
+            String url_epub = "http://192.168.1.139/rodger/api/reader/createEpub.php?user="+id_user+"&book="+id_book+"&id="+idBook;
             String url_cover = "http://192.168.1.139/rodger/api/upload/uploadPic.php?user="+id_user+"&book="+id_book;
 
-            Log.d("COVER", epubPath);
-            Log.d("COVER", url_epub);
-
+            progress.setMessage("Upload do ePub...");
             // upload epub file
-            UploadFiletService uploadEpub = new UploadFiletService(this, url_epub, epubPath);
-            uploadEpub.execute("").get();
+            uploadFile(url_epub, epubPath);
 
-            Log.d("COVER", coverPath);
-            Log.d("COVER", url_cover);
-
+            progress.setMessage("Upload da capa...");
             // upload book cover
-            UploadFiletService uploadCover = new UploadFiletService(this, url_cover, coverPath);
-            uploadCover.execute("").get();
+            uploadFile(url_cover, coverPath);
 
-//            progress.dismiss();
+            clearInputs();
+
+            progress.dismiss();
+
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
             Toast.makeText(this, "Livro publicado com sucesso!", Toast.LENGTH_SHORT).show();
 
         } catch (ExecutionException e) {
@@ -276,5 +257,55 @@ public class PublishEpubActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void uploadFile(String url, String path) throws ExecutionException, InterruptedException {
+        UploadFiletService upload = new UploadFiletService(this, url, path);
+        upload.execute("").get();
+    }
+
+    private String saveBookInfo() throws ExecutionException, InterruptedException {
+        // select .jpg from image path
+        String extension = coverPath.substring(coverPath.lastIndexOf("."));
+
+        String cover = "http://192.168.1.139/rodger/api/upload/images/user_u00" + id_user + "/" + "book_b00" + id_book + extension;
+
+        String titulo = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString();
+        String autor = Objects.requireNonNull(textInputAutor.getEditText()).getText().toString();
+        String edicao = Objects.requireNonNull(textInputEdicao.getEditText()).getText().toString();
+        int ano = Integer.parseInt(Objects.requireNonNull(textInputAno.getEditText()).getText().toString());
+        String sinopse = Objects.requireNonNull(textInputSinopse.getEditText()).getText().toString();
+        String isbn = Objects.requireNonNull(textInputIsbn.getEditText()).getText().toString();
+        String idioma = Objects.requireNonNull(textInputIdioma.getEditText()).getText().toString();
+
+        Date newDate = new Date();
+        java.sql.Date pubDate = new java.sql.Date (newDate.getTime());
+
+        // create book object
+        Book book = new Book(titulo, edicao, pubDate, ano, autor, cover, sinopse, idioma, isbn, id_user);
+
+        // register book info on db
+        RegisterBookService register = new RegisterBookService(this, book);
+        return register.execute("").get();
+    }
+
+    private void getBookId() throws ExecutionException, InterruptedException {
+        DatabaseSelectService selectBooksCount = new DatabaseSelectService(this, USER_ID, 1);
+        id_user = Integer.parseInt(selectBooksCount.execute("").get());
+    }
+
+    private void getUserId() throws ExecutionException, InterruptedException {
+        DatabaseSelectService selectUserId = new DatabaseSelectService(this, USER_ID, 2);
+        id_book = Integer.parseInt(selectUserId.execute("").get());
+    }
+
+    private void clearInputs() {
+        Objects.requireNonNull(textInputTitulo.getEditText()).getText().clear();
+        Objects.requireNonNull(textInputAutor.getEditText()).getText().clear();
+        Objects.requireNonNull(textInputEdicao.getEditText()).getText().clear();
+        Objects.requireNonNull(textInputAno.getEditText()).getText().clear();
+        Objects.requireNonNull(textInputSinopse.getEditText()).getText().clear();
+        Objects.requireNonNull(textInputIsbn.getEditText()).getText().clear();
+        Objects.requireNonNull(textInputIdioma.getEditText()).getText().clear();
     }
 }

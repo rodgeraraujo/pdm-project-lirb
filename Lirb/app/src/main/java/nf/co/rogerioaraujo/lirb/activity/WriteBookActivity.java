@@ -21,9 +21,6 @@ public class WriteBookActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Drawable d=getResources().getDrawable(R.drawable.background_book);
-        getActionBar().setBackgroundDrawable(d);
-
         getSupportActionBar().setTitle("Escreva sua história");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

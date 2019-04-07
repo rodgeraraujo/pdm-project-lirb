@@ -79,11 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                 if(jsonObject.names().get(0).equals("success")){
                     message = jsonObject.getString("success");
                     toastMessage(message);
-//                    Toast.makeText(
-//                            getApplicationContext(),
-//                            //"SUCCESS: "+jsonObject.getString("success"),
-//                            jsonObject.getString("success"),
-//                            Toast.LENGTH_SHORT).show();
 
                     Intent parse = new Intent(getApplicationContext(), HomeActivity.class);
                     parse.putExtra("SESSION_ID", USER);
@@ -145,7 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                 hashtext = "0"+hashtext;
             }
         } catch (Exception e1) {
-            // TODO: handle exception
             System.out.println();
             Log.d("md5Hashing",e1.getClass().getName() + ": " + e1.getMessage());
             //JOptionPane.showMessageDialog(null,e1.getClass().getName() + ": " + e1.getMessage());
