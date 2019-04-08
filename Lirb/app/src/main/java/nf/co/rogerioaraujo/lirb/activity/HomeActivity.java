@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity
     FloatingActionButton fab1, fab2;
     TextView pubEpub, writeBook;
     boolean isFABOpen = false;
+    private MenuLayout menuLayout;
 
     private String userId;
 
@@ -65,8 +66,6 @@ public class HomeActivity extends AppCompatActivity
                 userId = userCode.getString("SESSION_ID");
             }
         }
-//        Bundle userCode = getIntent().getExtras();
-//        userId = userCode.getString("SESSION_ID");
 
         // List of suggestions
         list = new String[]{
@@ -123,33 +122,49 @@ public class HomeActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
         // floating action button with menu
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab1 = findViewById(R.id.fab1);
-        fab2 = findViewById(R.id.fab2);
-        fab.setOnClickListener(view -> {
-            if(!isFABOpen){
-                showFABMenu();
-            }else{
-                closeFABMenu();
-            }
-        });
+        menuLayout=findViewById(R.id.menuLayout);
+        menuLayout.setMainButtonColorAndIcon(R.color.colorWhite,R.mipmap.ic_add_black_36dp)
+                .setListImageResource(R.mipmap.ic_alarm_black_24dp,R.mipmap.ic_face_black_24dp,R.mipmap.ic_g_translate_black_24dp)
+                .setListText("alarm","face","translate")
+                .setOnItemClickListener(new MenuLayout.OnItemClickListener() {
+                    @Override
+                    public void onTextItemClickListener(int position, String str) {
+                        Toast.makeText(HomeActivity.this,"positiion"+position+":"+str,Toast.LENGTH_SHORT).show();
+                    }
 
-        fab1.setOnClickListener(view -> {
-            Intent publishIntent = new Intent(getApplicationContext(), PublishEpubActivity.class);
-            publishIntent.putExtra("USER_ID", userId);
-            startActivity(publishIntent);
+                    @Override
+                    public void onImageItemClickListener(int position, int resId) {
+                        Toast.makeText(HomeActivity.this,"positiion"+position+":"+resId,Toast.LENGTH_SHORT).show();
+                    }
+                }).createMenu();
 
-//            Intent intent = new Intent(context, BookActivity.class);
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab1 = findViewById(R.id.fab1);
+//        fab2 = findViewById(R.id.fab2);
+//        fab.setOnClickListener(view -> {
+//            if(!isFABOpen){
+//                showFABMenu();
+//            }else{
+//                closeFABMenu();
+//            }
+//        });
 //
-//            // parsing data to the book activity
-//            intent.putExtra("Title", dataJson.get(position).getTitle());
-//            intent.putExtra("Author", dataJson.get(position).getAuthor());
-//            intent.putExtra("Sinopse", dataJson.get(position).getSinopse());
-//            intent.putExtra("Thumbnail", dataJson.get(position).getThumbnail());
+//        fab1.setOnClickListener(view -> {
+//            Intent publishIntent = new Intent(getApplicationContext(), PublishEpubActivity.class);
+//            publishIntent.putExtra("USER_ID", userId);
+//            startActivity(publishIntent);
 //
-//            // start the activity
-//            context.startActivity(intent);
-        });
+////            Intent intent = new Intent(context, BookActivity.class);
+////
+////            // parsing data to the book activity
+////            intent.putExtra("Title", dataJson.get(position).getTitle());
+////            intent.putExtra("Author", dataJson.get(position).getAuthor());
+////            intent.putExtra("Sinopse", dataJson.get(position).getSinopse());
+////            intent.putExtra("Thumbnail", dataJson.get(position).getThumbnail());
+////
+////            // start the activity
+////            context.startActivity(intent);
+//        });
 
         fab2.setOnClickListener(view -> {
             Intent writingIntent = new Intent(getApplicationContext(), WriteBookActivity.class);
@@ -169,17 +184,17 @@ public class HomeActivity extends AppCompatActivity
     }
 
     // fab animaitons
-    private void showFABMenu() {
-        isFABOpen=true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-    }
-
-    private void closeFABMenu() {
-        isFABOpen=false;
-        fab1.animate().translationY(0);
-        fab2.animate().translationY(0);
-    }
+//    private void showFABMenu() {
+//        isFABOpen=true;
+//        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+//        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+//    }
+//
+//    private void closeFABMenu() {
+//        isFABOpen=false;
+//        fab1.animate().translationY(0);
+//        fab2.animate().translationY(0);
+//    }
 
     // tabs on home
     private void setupViewPager(ViewPager viewPager) {
@@ -267,9 +282,11 @@ public class HomeActivity extends AppCompatActivity
         String msgToast = "Ainda não está funcinando, quem sabe na proxima release!";
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+
             Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
+            profileIntent.putExtra("USER_ID", userId);
             startActivity(profileIntent);
+
         } else if (id == R.id.nav_home_app) {
 
             Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);

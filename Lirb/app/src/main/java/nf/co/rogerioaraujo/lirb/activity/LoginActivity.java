@@ -27,6 +27,9 @@ import java.util.Map;
 import nf.co.rogerioaraujo.lirb.R;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private ProgressDialog pDialog;
+
     private String USER;
     private String PASSWORD;
     private String URL;
@@ -53,13 +56,22 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(view -> {
 
+            pDialog = new ProgressDialog(this);
+            pDialog.setTitle("Login...");
+            pDialog.setMessage("Validando entradas...");
+            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pDialog.setIndeterminate(true);
+            pDialog.setCancelable(false);
+            pDialog.setInverseBackgroundForced(true);
+            pDialog.show();
+
             USER = userId.getText().toString();
             PASSWORD = password.getText().toString();
 //            USER = "rodger";
 //            PASSWORD = "mnb";
             String PASSWORD_HASH = md5hashing(PASSWORD);
 
-            URL = "http://192.168.1.139/rodger/api/user/user_control.php?user="+USER+"&password="+PASSWORD_HASH;
+            URL = "http://192.168.1.140/rodger/api/user/user_control.php?user="+USER+"&password="+PASSWORD_HASH;
             Log.d("URL",URL);
             Log.d("PASSWORD",PASSWORD_HASH);
 
@@ -77,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(response);
 
                 if(jsonObject.names().get(0).equals("success")){
+                    pDialog.dismiss();
+
                     message = jsonObject.getString("success");
                     toastMessage(message);
 
@@ -84,18 +98,21 @@ public class LoginActivity extends AppCompatActivity {
                     parse.putExtra("SESSION_ID", USER);
 
                     startActivity(parse);
-                    //startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 }
                 else if(jsonObject.names().get(0).equals("invalid")){
+                    pDialog.dismiss();
+
                     message = jsonObject.getString("invalid");
                     toastMessage(message);
                 }
                 else {
+                    pDialog.dismiss();
                     message = jsonObject.getString("error");
                     toastMessage(message);
                 }
 
             } catch (JSONException e) {
+                pDialog.dismiss();
                 e.printStackTrace();
             }
         }, error -> {

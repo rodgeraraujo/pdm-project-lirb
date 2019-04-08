@@ -32,7 +32,7 @@ public class MySQL {
 //    private final String USER = "ZgIlDoFntY";
 //    private final String PASSWORD = "1C5oAUmCAV";
 
-    private final String HOST = "192.168.1.139";
+    private final String HOST = "192.168.1.140";
     private final String DATA_BASE = "lirb_data";
     private final String PORT = "3306";
 

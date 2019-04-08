@@ -81,7 +81,6 @@ public class LatestTabFragment extends Fragment {
                 if(gridLayoutManager.findLastCompletelyVisibleItemPosition() == data_list.size()-1){
                     loadDataFromServer(id);
                 }
-
             }
         });
 
@@ -89,14 +88,13 @@ public class LatestTabFragment extends Fragment {
         return view;
     }
 
-
     private void loadDataFromServer(final int id) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Integer,Void,Void> task = new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... integers) {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url("http://192.168.1.139/rodger/api/book/listBooks.php?id=" + id)
+                        .url("http://192.168.1.140/rodger/api/book/listBooks.php?id=" + id)
                         .build();
 
                 try {

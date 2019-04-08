@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -35,7 +36,7 @@ public class ReaderActivity extends Activity {
         String book_name = intent.getExtras().getString("URI");
         Log.d("PATH_EPUB", book_name);
 
-        book_url = "http://192.168.1.139/rodger/api/reader/bib/i/?book=" + book_name;
+        book_url = "http://192.168.1.140/rodger/api/reader/bib/i/?book=" + book_name;
 
         //Hide title bar - this should be done before SetContentView
 //        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -88,5 +89,10 @@ public class ReaderActivity extends Activity {
         web.loadUrl(book_url);
         web.getSettings().setLoadWithOverviewMode(true);
         web.getSettings().setUseWideViewPort(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

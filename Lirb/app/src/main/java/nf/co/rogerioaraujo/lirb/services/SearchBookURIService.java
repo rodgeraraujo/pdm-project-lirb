@@ -19,7 +19,6 @@ public class SearchBookURIService extends AsyncTask<String, String, String> {
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
-    private ProgressDialog mProgressDialog;
 
     private String book_id;
     private String msg;
@@ -31,6 +30,7 @@ public class SearchBookURIService extends AsyncTask<String, String, String> {
         this.context = context;
         this.book_id = book_id;
     }
+
 
     @Override
     protected String doInBackground(String... strings) {

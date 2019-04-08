@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Button;
 
 import com.mysql.jdbc.Statement;
 
@@ -11,9 +12,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import nf.co.rogerioaraujo.lirb.activity.PublishEpubActivity;
 import nf.co.rogerioaraujo.lirb.database.MySQL;
 
 public class DatabaseSelectService extends AsyncTask<String, String, String> {
+
+    private ProgressDialog pDialog;
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
@@ -29,6 +33,21 @@ public class DatabaseSelectService extends AsyncTask<String, String, String> {
         this.context = context;
         this.user_id = user_id;
         this.type = type;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        pDialog = new ProgressDialog(context);
+        pDialog.setTitle("Publicando...");
+        pDialog.setMessage("Verificando informações...");
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.setIndeterminate(true);
+        pDialog.setCancelable(false);
+        pDialog.setInverseBackgroundForced(true);
+        pDialog.show();
+        pDialog.show();
     }
 
     @Override

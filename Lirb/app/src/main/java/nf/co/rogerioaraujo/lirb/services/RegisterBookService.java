@@ -18,9 +18,10 @@ import nf.co.rogerioaraujo.lirb.model.User;
 
 public class RegisterBookService extends AsyncTask<String, String, String> {
 
+    private ProgressDialog pDialog;
+
     @SuppressLint("StaticFieldLeak")
     private Context context;
-    private ProgressDialog mProgressDialog;
 
     private Book book;
     private String msg;
@@ -39,13 +40,19 @@ public class RegisterBookService extends AsyncTask<String, String, String> {
         this.book = book;
     }
 
-//    @Override
-//    protected void onPreExecute() {
-//        mProgressDialog = ProgressDialog.show(
-//                context,
-//                "",
-//                "Please wait, getting database...");
-//    }
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        pDialog = new ProgressDialog(context);
+        pDialog.setTitle("Publicando...");
+        pDialog.setMessage("Salvando informações...");
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.setIndeterminate(true);
+        pDialog.setCancelable(false);
+        pDialog.setInverseBackgroundForced(true);
+        pDialog.show();
+    }
 
     @Override
     protected String doInBackground(String... strings) {

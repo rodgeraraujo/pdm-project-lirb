@@ -29,8 +29,6 @@ public class RegisterUserService extends AsyncTask<String, String, String> {
     public static final String INSERT =
             "INSERT INTO `lirb_data`.`user_data` (`user_name`, `user_email`, `user_pass`, `user_fullName`, `user_dateRegister`) " +
                     "VALUES(?, ?,MD5(?), ?, ?)";
-            //"INSERT INTO sql10284722.user_data(username, email, password, name, dateRegister) VALUES(?,?,MD5(?),?,?)";
-
 
     public RegisterUserService(Context context, User user) {
         this.context = context;

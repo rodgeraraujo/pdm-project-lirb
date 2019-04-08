@@ -1,6 +1,7 @@
 package nf.co.rogerioaraujo.lirb.services;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.MimeTypeMap;
@@ -23,6 +24,8 @@ import okhttp3.Response;
 
 public class UploadFiletService extends AsyncTask<String, String, String> {
 
+    private ProgressDialog pDialog;
+
     @SuppressLint("StaticFieldLeak")
     private Context context;
 
@@ -34,6 +37,19 @@ public class UploadFiletService extends AsyncTask<String, String, String> {
         this.context = context;
         this.url = url;
         this.file = file;
+    }
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        pDialog = new ProgressDialog(context);
+        pDialog.setTitle("Publicando...");
+        pDialog.setMessage("Fazendo upload dos dados...");
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.setIndeterminate(true);
+        pDialog.setCancelable(false);
+        pDialog.setInverseBackgroundForced(true);
+        pDialog.show();
     }
 
     @Override

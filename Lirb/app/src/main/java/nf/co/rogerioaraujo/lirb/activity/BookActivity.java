@@ -3,6 +3,7 @@ package nf.co.rogerioaraujo.lirb.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ public class BookActivity extends AppCompatActivity {
         bookTitle.setText(title);
         bookAuthor.setText(author);
         bookSinopse.setText(sinopse);
+
         Glide.with(BookActivity.this)
                 .load(thumbnail)
                 .centerCrop()
@@ -75,6 +77,15 @@ public class BookActivity extends AppCompatActivity {
             intent1.putExtra("URI", msg);
             startActivity(intent1);
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return false;
     }
 
     public void goReaderActivity(View view) {
