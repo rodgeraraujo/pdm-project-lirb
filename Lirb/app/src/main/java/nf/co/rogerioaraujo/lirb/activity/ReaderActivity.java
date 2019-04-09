@@ -34,7 +34,6 @@ public class ReaderActivity extends Activity {
         // Get title name from user input
         Intent intent = getIntent();
         String book_name = intent.getExtras().getString("URI");
-        Log.d("PATH_EPUB", book_name);
 
         book_url = "http://192.168.1.140/rodger/api/reader/bib/i/?book=" + book_name;
 

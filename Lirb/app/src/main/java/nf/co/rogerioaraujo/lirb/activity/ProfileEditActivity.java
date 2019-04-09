@@ -19,8 +19,11 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 
 import nf.co.rogerioaraujo.lirb.R;
+import nf.co.rogerioaraujo.lirb.model.User;
+import nf.co.rogerioaraujo.lirb.services.UpdateUserService;
 
 public class ProfileEditActivity extends AppCompatActivity {
 
@@ -32,7 +35,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     private ImageView selectedImageView;
     private EditText titleEditText;
 
-    private String USER_DESCRIPTION, USER_NAME;
+    private String USER_ID, USER_DESCRIPTION, USER_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         // get id from user session
         Intent intent = getIntent();
+        USER_ID = intent.getExtras().getString("USER_ID");
         USER_NAME = intent.getExtras().getString("USER_NAME");
         USER_DESCRIPTION = intent.getExtras().getString("USER_DESCRIPTION");
 
@@ -73,7 +77,6 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     public void save(View view) {
         Bitmap image = ((BitmapDrawable)selectedImageView.getDrawable()).getBitmap();
-//        new MemoryDbHelper(this).addMemory(new Memory(titleEditText.getText().toString(), image));
 //        finish();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -81,11 +84,37 @@ public class ProfileEditActivity extends AppCompatActivity {
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-        Toast.makeText(
-                getApplicationContext(),
-                "Informações atualizadas",
-                Toast.LENGTH_LONG
-        ).show();
+        String name = textInputNome.getEditText().getText().toString();
+        String description = textInputDescricao.getEditText().getText().toString();
+
+        User user = new User(name, description, encodedImage);
+
+        String msg = "";
+
+        try {
+            UpdateUserService update = new UpdateUserService(this, user, USER_ID);
+            msg = update.execute("").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (msg == "success") {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Informações atualizadas",
+                    Toast.LENGTH_LONG
+            ).show();
+
+        } else {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Ocorreu algum erro :(",
+                    Toast.LENGTH_LONG
+            ).show();
+        }
+
     }
 
     @Override

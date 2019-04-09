@@ -26,7 +26,7 @@ public class WriteBookActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        fab.setOnClickListener(view -> Snackbar.make(view, "Substituir com sua ação", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
     }
 

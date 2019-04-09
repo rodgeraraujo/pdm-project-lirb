@@ -15,21 +15,22 @@ import nf.co.rogerioaraujo.lirb.database.MySQL;
 import nf.co.rogerioaraujo.lirb.model.User;
 
 public class UpdateUserService extends AsyncTask<String, String, String> {
+
     private ProgressDialog pDialog;
 
     @SuppressLint("StaticFieldLeak")
     private Context context;
 
-    private String info;
-
     private User userInfo;
+    private String id;
 
     //MySQL instace
     MySQL mySQL = new MySQL();
 
-    public UpdateUserService(Context context, String info) {
+    public UpdateUserService(Context context, User userInfo, String id) {
         this.context = context;
-        this.info = info;
+        this.userInfo = userInfo;
+        this.id = id;
     }
 
     @Override
@@ -53,22 +54,24 @@ public class UpdateUserService extends AsyncTask<String, String, String> {
             Connection connection = mySQL.newConnection();
 
             if (connection == null) {
-                userInfo = new User();
+                return "error";
             } else {
+                pDialog.setMessage("Reinicie o aplicativo!");
+
                 String query = "UPDATE user_data SET user_description = '"+userInfo.getDescription()+"', " +
                         "user_name = '"+userInfo.getUsername()+"', " +
                         "user_fullName = '"+userInfo.getName()+"' " +
-                        "WHERE user_name = '" + info + "' OR user_email = '" + info + "'";
+                        "WHERE user_name = '" + id + "' OR user_email = '" + id + "'";
                 Statement st = (Statement) connection.createStatement();
                 ResultSet rs = st.executeQuery(query);
 
                 pDialog.dismiss();
                 connection.close();
-                return "";
+                return "success";
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return "error";
     }
 }

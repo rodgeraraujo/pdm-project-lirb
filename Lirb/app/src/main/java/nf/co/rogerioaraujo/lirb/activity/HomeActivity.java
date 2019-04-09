@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity
     // fab menu
     FloatingActionButton fab1, fab2;
 
-    TextView pubEpub, writeBook;
+    TextView pubEpub, writeBook, userName;
     boolean isFABOpen = false;
 
     private String userId;
@@ -64,8 +64,12 @@ public class HomeActivity extends AppCompatActivity
             Bundle userCode = getIntent().getExtras();
             if(!userCode.getString("SESSION_ID").equals(null)){
                 userId = userCode.getString("SESSION_ID");
+//                userName = findViewById(R.id.menu_username);
+//                userName.setText(userId);
             }
         }
+
+
 
         // List of suggestions
         list = new String[]{
@@ -77,7 +81,9 @@ public class HomeActivity extends AppCompatActivity
                 "User 3",
                 "Book legal ",
                 "Nikan",
-                "Rodger"
+                "Rodger",
+                "Ari",
+                "Fernanda"
         };
 
         // Search view
@@ -256,16 +262,12 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         String msgToast = "Ainda não está funcinando, quem sabe na proxima release!";
 
+
         if (id == R.id.nav_profile) {
 
             Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
             profileIntent.putExtra("USER_ID", userId);
             startActivity(profileIntent);
-
-        } else if (id == R.id.nav_home_app) {
-
-            Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(homeIntent);
 
         } else if (id == R.id.nav_my_books) {
 
