@@ -6,29 +6,38 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 
 import nf.co.rogerioaraujo.lirb.R;
+import nf.co.rogerioaraujo.lirb.model.User;
+import nf.co.rogerioaraujo.lirb.services.UserInfoService;
 
 public class ProfileActivity extends AppCompatActivity {
-    private static final int GALLERY_REQUEST_CODE = 100;
-    private static final int CAMERA_REQUEST_CODE = 200;
 
+    private Button editInfo;
+
+    private TextView textUsername, textName, textDescription;
     private ImageView selectedImageView;
-    private EditText titleEditText;
 
     private String USER_ID;
+
+    private User userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +51,34 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         USER_ID = intent.getExtras().getString("USER_ID");
 
-        Toast.makeText(
-                getApplicationContext(),
-                USER_ID,
-                Toast.LENGTH_LONG
-        ).show();
+        try {
+            UserInfoService userInfoService = new UserInfoService(this, USER_ID);
+            userInfo = userInfoService.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-//        this.selectedImageView = (ImageView) findViewById(R.id.new_memory_selected_image);
-        this.selectedImageView = (ImageView) findViewById(R.id.u_Picture);
-        this.titleEditText = (EditText) findViewById(R.id.new_memory_title);
+        textUsername = findViewById(R.id.u_Username);
+        textName = findViewById(R.id.u_Name);
+        textDescription = findViewById(R.id.u_Description);
+
+        textUsername.setText(userInfo.getUsername());
+        textName.setText(userInfo.getName());
+        textDescription.setText(userInfo.getDescription());
     }
 
     public void goBookProfile(View view) {
         Intent profileIntent = new Intent(getApplicationContext(), BookActivity.class);
         startActivity(profileIntent);
+    }
+
+    public void updateUserInfo(View view) {
+        Intent editInfo = new Intent(getApplicationContext(), ProfileEditActivity.class);
+        editInfo.putExtra("USER_NAME", userInfo.getUsername());
+        editInfo.putExtra("USER_DESCRIPTION", userInfo.getDescription());
+        startActivity(editInfo);
     }
 
     @Override
@@ -66,59 +89,5 @@ public class ProfileActivity extends AppCompatActivity {
         }
         return false;
     }
-    public void openGallery(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST_CODE);
-    }
 
-    public void openCamera(View view) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-        }
-    }
-
-    public void cancel(View view) {
-        finish();
-    }
-
-    public void save(View view) {
-        Bitmap image = ((BitmapDrawable)selectedImageView.getDrawable()).getBitmap();
-//        new MemoryDbHelper(this).addMemory(new Memory(titleEditText.getText().toString(), image));
-//        finish();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        Toast.makeText(
-                getApplicationContext(),
-                encodedImage,
-                Toast.LENGTH_LONG
-        ).show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == GALLERY_REQUEST_CODE) {
-            try {
-                Uri selectedImage = data.getData();
-                InputStream imageStream = getContentResolver().openInputStream(selectedImage);
-                selectedImageView.setImageBitmap(BitmapFactory.decodeStream(imageStream));
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            selectedImageView.setImageBitmap(imageBitmap);
-        }
-    }
 }

@@ -8,6 +8,8 @@ public class User {
     private String email;
     private String password;
     private String name;
+    private String description;
+    private String picture;
     private Date dateRegister;
     private Status status;
 
@@ -15,12 +17,14 @@ public class User {
     }
 
     public User(int id, String username, String email, String password,
-                String name, Date dateRegister, Status status) {
+                String name, String description, String picture, Date dateRegister, Status status) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
+        this.description = description;
+        this.picture = picture;
         this.dateRegister = dateRegister;
         this.status = status;
     }
@@ -33,6 +37,14 @@ public class User {
         this.name = name;
         this.dateRegister = dateRegister;
         this.status = status;
+    }
+
+    public User(String username, String name, String description, String picture) {
+        this.username = username;
+        this.name = name;
+        this.description = description;
+        this.picture = picture;
+
     }
 
     public int getId() {
@@ -73,6 +85,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getDateRegister() {

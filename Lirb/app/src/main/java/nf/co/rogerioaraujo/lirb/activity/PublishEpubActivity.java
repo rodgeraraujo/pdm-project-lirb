@@ -67,8 +67,6 @@ public class PublishEpubActivity extends AppCompatActivity {
         Intent intent = getIntent();
         USER_ID = intent.getExtras().getString("USER_ID");
 
-        System.out.println(USER_ID);
-
         fileInputEpub = findViewById(R.id.item_file_Epub);
         fileInputCover = findViewById(R.id.item_input_Cover);
         buttonInputPublish = findViewById(R.id.inputButtonPublish);
@@ -131,18 +129,6 @@ public class PublishEpubActivity extends AppCompatActivity {
     }
 
     // functions to valid inputs
-    private boolean validateTitle() {
-        String tituloInput = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString().trim();
-
-        if (tituloInput.isEmpty()) {
-            textInputTitulo.setError("Não pode está vazio");
-            return false;
-        } else {
-            textInputTitulo.setError(null);
-            return true;
-        }
-    }
-
     public void publicarEpub(View v) {
 
         if (!validateTitle() | !validateEdition() | !validateSinopse() |
@@ -187,6 +173,18 @@ public class PublishEpubActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private boolean validateTitle() {
+        String tituloInput = Objects.requireNonNull(textInputTitulo.getEditText()).getText().toString().trim();
+
+        if (tituloInput.isEmpty()) {
+            textInputTitulo.setError("Não pode está vazio");
+            return false;
+        } else {
+            textInputTitulo.setError(null);
+            return true;
+        }
     }
 
     private boolean validateSinopse() {
