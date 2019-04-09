@@ -68,4 +68,5 @@ dependencies {
     implementation 'com.nbsp:library:1.09'
 
     /* Add library to circular ImageView to Android*/
-    implementation 'de.hdodenhof:circleimageview:3.0.0'}
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+}

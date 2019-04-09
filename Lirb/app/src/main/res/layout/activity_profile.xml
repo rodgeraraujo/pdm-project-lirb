@@ -64,7 +64,7 @@
                 <Button
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Follow"
+                android:text="Edit"
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 android:background="@drawable/round_button"/>
@@ -73,71 +73,57 @@
 
         </android.support.v7.widget.CardView>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            xmlns:app="http://schemas.android.com/tools"
-            app:ignore="NamespaceTypo">
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/card_view"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:layout_width="120dp"
-                android:layout_height="193dp"
-                android:layout_gravity="center"
-                android:elevation="3dp"
-                card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="4dp"
-                card_view:cardCornerRadius="5dp"
-                android:layout_margin="12dp"
-                app:contentPadding="32dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="20dp"
-                android:translationZ="10dp"
-                android:backgroundTint="@color/purple"
-                >
+            <!--<ImageView-->
+                <!--android:id="@+id/new_memory_selected_image"-->
+                <!--android:src="@drawable/ic_user"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150dp" />-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/new_memory_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="teste"/>
 
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:background="#2d2d2d"
-                        android:scaleType="centerCrop" />
+            <Button
+                android:onClick="openGallery"
+                android:text="gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/txtTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/image"
-                        android:textColor="@color/cardview_dark_background"
-                        android:text="Book Title"
-                        android:paddingLeft="3dp"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:typeface="sans"
-                        android:background="#66FFFFFF"/>
+            <Button
+                android:onClick="openCamera"
+                android:text="camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/txtId"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/image"
-                        android:text="323"
-                        android:paddingLeft="1dp"
-                        android:textSize="1sp"
-                        android:background="#66FFFFFF"/>
-                </RelativeLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            </android.support.v7.widget.CardView>
+                <Button
+                    android:id="@+id/new_memory_cancel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:onClick="cancel"
+                    android:text="cancel"
+                    android:layout_height="wrap_content" />
 
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:onClick="save"
+                    android:text="save"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

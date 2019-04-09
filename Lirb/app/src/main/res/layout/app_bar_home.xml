@@ -41,54 +41,47 @@
         layout="@layout/content_home" />
 
 
-    <com.liuxin.floatmenulib.view.MenuLayout
-        android:id="@+id/menuLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:fab_margin_buttom="30dp"
-        app:fab_margin_right="30dp"
-        />
     <!-- fab menu animation-->
-      <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab2"-->
-        <!--android:layout_width="45dp"-->
-        <!--android:layout_height="45dp"-->
-        <!--app:fabCustomSize="45dp"-->
-        <!--android:scaleType="center"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="22dp"-->
-        <!--app:layout_anchor="@+id/include"-->
-        <!--app:layout_anchorGravity="right|bottom"-->
-        <!--app:backgroundTint="@color/colorPrimaryDark"-->
-        <!--android:tint="@color/white"-->
-        <!--app:srcCompat="@drawable/ic_pub_epub"-->
-        <!--tools:ignore="VectorDrawableCompat" />-->
+      <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:fabCustomSize="45dp"
+        android:scaleType="center"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="22dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|bottom"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_pub_epub"
+        tools:ignore="VectorDrawableCompat" />
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:fabCustomSize="45dp"-->
-        <!--android:scaleType="center"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="22dp"-->
-        <!--app:layout_anchor="@+id/include"-->
-        <!--app:layout_anchorGravity="right|bottom"-->
-        <!--app:backgroundTint="@color/colorPrimaryDark"-->
-        <!--android:tint="@color/white"-->
-        <!--app:srcCompat="@drawable/ic_write_book"-->
-        <!--tools:ignore="VectorDrawableCompat" />-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabCustomSize="45dp"
+        android:scaleType="center"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="22dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="right|bottom"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/ic_write_book"
+        tools:ignore="VectorDrawableCompat" />
 
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--app:backgroundTint="@color/colorPrimaryDark"-->
-        <!--android:tint="@color/white"-->
-        <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:tint="@color/white"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 
