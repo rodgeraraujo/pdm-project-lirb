@@ -54,16 +54,15 @@ public class UpdateUserService extends AsyncTask<String, String, String> {
             Connection connection = mySQL.newConnection();
 
             if (connection == null) {
+                pDialog.dismiss();
                 return "error";
             } else {
-                pDialog.setMessage("Reinicie o aplicativo!");
-
                 String query = "UPDATE user_data SET user_description = '"+userInfo.getDescription()+"', " +
                         "user_name = '"+userInfo.getUsername()+"', " +
                         "user_fullName = '"+userInfo.getName()+"' " +
                         "WHERE user_name = '" + id + "' OR user_email = '" + id + "'";
                 Statement st = (Statement) connection.createStatement();
-                ResultSet rs = st.executeQuery(query);
+                st.executeUpdate(query);
 
                 pDialog.dismiss();
                 connection.close();
@@ -72,6 +71,7 @@ public class UpdateUserService extends AsyncTask<String, String, String> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        pDialog.dismiss();
         return "error";
     }
 }

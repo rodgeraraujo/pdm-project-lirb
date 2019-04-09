@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void updateUserInfo(View view) {
         Intent editInfo = new Intent(getApplicationContext(), ProfileEditActivity.class);
         editInfo.putExtra("USER_ID", USER_ID);
-        editInfo.putExtra("USER_NAME", userInfo.getUsername());
+        editInfo.putExtra("USER_NAME", userInfo.getName());
         editInfo.putExtra("USER_DESCRIPTION", userInfo.getDescription());
         startActivity(editInfo);
     }
